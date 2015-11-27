@@ -1,13 +1,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
-	<script src="/toolkit/jquery-1.9.0.js"></script>
-	<script src="/toolkit/underscore-min.js"></script>
-	<script src="/toolkit/parseUri.js"></script>
-	<script src="/toolkit/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<!-- common -->
+	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/parseUri.js"></script>
 	<script src="js/widget.js"></script>
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
+	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
+	<!-- timeglider -->
 </head>
 <body>
 	<a href="index.html">back to homepage</a>
@@ -21,28 +24,41 @@
 var resultCascadeCols = 3;
 
 var imgJsonRootUrl = '';
-var imgRootUrl = '';
-var imgFuseRootUrl = '';
+var queryImgRootUrl = '';
+var matchImgRootUrl = '';
+var fuseImgRootUrl = '';
 
 $(document).ready(function() {
 	var url = window.location.href;
 	var iid = parseUri(url).queryKey.iid;
 	var imgJsonUrl = imgJsonRootUrl + iid + '.json';
 
+	var queryImgUrl = queryImgRootUrl + iid + '.jpg'
+
 	$(document.createElement('img'))
-		.attr('src', imgRootUrl + iid + '.jpg')
+		.attr('src', queryImgUrl)
 		.attr('height', '256px');
 		.appendTo($('query'));
 
 	// retrieve img match json:
-	// d is a list of [matchImgUrl, fuseImgUrl, eid]
+	// d is a list of [matchImgName, fuseImgName, text description]
 	$.getJSON(jsonUrl, function(d) {
 		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, function(item) {
-				//TODO
+			// create and return img element
 		});
 		resultCascade.SetItemClickFunc(function(item){
 			var popupPanel = new PopupPanel($('#popup'), item, function(item) {
-				//TODO
+				var matchImgUrl = matchImgRootUrl + item[0] + '.jpg';
+				var fuseImgUrl = fuseImgRootUrl + item[1] + '.jpg';
+				var text = item[2];
+
+				// create content to popup panel
+				// the layout of content from top to bottom:
+				// left: query image, right: match image
+				// fused image: 
+				// text description
+
+				// return content's root div element
 			});
 		});
 	});

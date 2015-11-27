@@ -15,7 +15,7 @@ function Carousel(rootEle, d, param)
 	// privileged functions
 
 	// register the clickFunc to the widget
-	// clickFunc(item), item is item in d, i.e. [imgId, imgUrl]
+	// bind clickFunc to each element's click event in the widget
 	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO
@@ -35,7 +35,7 @@ function ListView(rootEle, d)
 	// privileged functions
 
 	// register the clickFunc to the widget
-	// clickFunc(item), item is item in d, i.e. [eid, text]
+	// bind clickFunc to each element's click event in the widget
 	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO
@@ -51,7 +51,7 @@ function PagedTable(rootEle, d, param, processFunc)
 
 
 	// register the clickFunc to the widget
-	// clickFunc(item), item is item in list, i.e. [eid, text]
+	// bind clickFunc to each element's click event in the widget
 	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO
@@ -122,6 +122,9 @@ function CascadeLayout(rootEle, d, cols, processFunc)
 
 	///////////////////////////////////////////////
 	// privileged functions
+
+	// register the clickFunc to the widget
+	// bind clickFunc to each element's click event in the widget
 	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO

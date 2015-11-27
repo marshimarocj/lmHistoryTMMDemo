@@ -1,13 +1,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
-	<script src="/toolkit/jquery-1.9.0.js"></script>
-	<script src="/toolkit/underscore-min.js"></script>
-	<script src="/toolkit/parseUri.js"></script>
-	<script src="/toolkit/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<!-- common -->
+	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/parseUri.js"></script>
 	<script src="js/widget.js"></script>
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
+	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
+	<!-- timeglider -->
 </head>
 <body>
 	<a href="index.html">back to homepage</a>
@@ -47,13 +50,13 @@ $(document).ready(function() {
 		$('#text').html(d['text']);
 
 		//process iconic image display
-		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], iconicCarouselWidth, function(item){
-			//TODO
+		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], iconicCarouselWidth, function(item) {
+			//create and return img element
 		});
 
 		//process facet display
-		var facetCascade = new CascadeLayout($('facet'), d['facet'], facetCascadeCols, function(item) {
-			//TODO
+		var facetCascade = new CascadeLayout($('#facet'), d['facet'], facetCascadeCols, function(item) {
+			//create extended carousel element, set its itemClickFunc and return this extended carousel element
 		});
 	});
 });
