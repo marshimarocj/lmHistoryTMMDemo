@@ -1,0 +1,62 @@
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
+	<script src="/toolkit/jquery-1.9.0.js"></script>
+	<script src="/toolkit/underscore-min.js"></script>
+	<script src="/toolkit/parseUri.js"></script>
+	<script src="/toolkit/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<script src="js/widget.js"></script>
+</head>
+<body>
+	<a href="index.html">back to homepage</a>
+	<!-- this section shows the text description of the event -->
+	<h1></h1>
+	<div id="text"></div>
+	<!-- this section shows the famous iconic image. Its a Carousel Widget-->
+	<h1>Extremely Famous Photos<h1>
+	<div id="iconic"></div>
+	<!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
+	<h1></h1>
+	<div id="facet"></div>
+	<!-- the popup panel. It is a popup panel widget with extended carousel widget inside -->
+	<div id="facet-detail"></div>
+
+	<script>
+var iconicCarouselWidth = 1;
+var facetCascadeCols = 4;
+var detailCarouselWidth = 4;
+
+var eventJsonRootUrl = '';
+
+$(document).ready(function() {
+	// parse eid from parameter
+	var url = window.location.href;
+	var eid = parseUri(url).queryKey.eid;
+	var jsonUrl = eventJsonRootUrl + eid + '.json';
+
+	// retrieve event detail json
+	// d: {
+	//	text: str, 
+	//	iconic: list of img urls, 
+	// 	facet: list of [list of img urls]
+	// }
+	$.getJSON(jsonUrl, function(d) {
+		//process text display
+		$('#text').html(d['text']);
+
+		//process iconic image display
+		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], iconicCarouselWidth, function(item){
+			//TODO
+		});
+
+		//process facet display
+		var facetCascade = new CascadeLayout($('facet'), d['facet'], facetCascadeCols, function(item) {
+			//TODO
+		});
+	});
+});
+	</script>
+</body>
+</html>

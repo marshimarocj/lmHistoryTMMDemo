@@ -1,0 +1,116 @@
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
+	<script src="/toolkit/jquery-1.9.0.js"></script>
+	<script src="/toolkit/underscore-min.js"></script>
+	<script src="/toolkit/parseUri.js"></script>
+	<script src="/toolkit/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<script src="js/widget.js"></script>
+</head>
+<body>
+	<!-- this is the banner of our demo-->
+	<h1 id="pageHeader">Image Profiling for History Events</h1>
+	<!-- use a tab widget -->
+	<ul id="tabView">
+		<li id="imgs">
+			<!-- this section shows a list of selected images, -->
+			<h2>What happened here in the past?</h2>
+			<!-- use a carousel widget -->
+			<div id="imgCarousel"></div>
+		</li>
+		<li id="events">
+			<!-- this section shows a list of preprared events -->
+			<h2>What do the events look like?</h2>
+			<!-- list widget -->
+			<div id="eventList"></div>
+		</li>
+		<li id="knowledge">
+			<!-- this section shows all the events from different views on the time line-->
+			<h2>Explore our history event knowledge base automatically extracted from images!</h2>
+			<div id="timeview">
+				<!-- this is a group of controls to select which subset of events to view on the time line -->
+				<table>
+					<tr>
+						<td>
+							<a href='#warList' id="warList">Browse by Period</a>
+							<a href='#sceneList' id="sceneList">Browse by Scene</a>
+							<a href='#objectList' id="objectList">Browse by Object</a>
+						</td>
+						<td>
+							<div id="pageTable"></div>
+						</td>
+					</tr>
+				</table>
+				<!-- this is a timeglider widget for viewing events on time line -->
+				<div id="timeglider"></div>
+			</div>
+		</li>
+	</ul>
+
+	<script>
+var imgJsonUrl = '';
+var eventJsonurl = '';
+var browseJsonUrls = ['', '', ''];
+var timeJsonUrl = '';
+
+var imgData = undefined;
+var eventData = undefined;
+var browseData = [undefined, undefined, undefined];
+
+$(document).ready(function() {
+	var pageHeader = new PageHeader($('#pageHeader'))
+	var tabView = new TabView($('#tabView'))
+
+	// image tab
+	// d is a list of [imgId, imgUrl]
+	$.getJSON(imgJsonUrl, function(d) {
+		imgData = d;
+
+		var imgCarousel = new Carousel($('#imgCarousel'), d, function(item) {
+			//TODO
+		});
+		imgCarousel.SetItemClickFunc(function(item) {
+			//TODO
+		});
+	});
+
+	// event tab
+	$('#events').click(function() {
+		if(eventData != undefined) return;
+
+		$.getJSON(imgJsonUrl, function(d) {
+			eventData = d;
+
+			// d is a list of [eid, text]
+			var eventList = new ListView($('#eventList'), d, function(item) {
+				//TODO
+			});
+			eventList.SetItemClickFunc(function(item) {
+				//TODO
+			})
+		});
+	});
+
+	// knowledge tab
+	_.each(['#warList', '#sceneList', '#objectList'], function(d, i) {
+		$(d).click(function() {
+			if(browseData[i] != undefined) return;
+
+			// d is a list of [wordId, word]
+			$.getJSON(browseJsonUrls[i], function (d) {
+				browseData[i] = d;
+				var param = {rows: 4, cols: 5};
+				var pagedTable = new PagedTable($('#pageTable'), d, param, function(item) {
+					//TODO
+				});
+			});
+		});
+	});
+
+	var timeGlider = new TimeGlider($('#timeglider'));
+	timeGlider.GetData(timeJsonUrl);
+});
+	</script>
+</body>

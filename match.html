@@ -1,0 +1,52 @@
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/toolkit/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css">
+	<script src="/toolkit/jquery-1.9.0.js"></script>
+	<script src="/toolkit/underscore-min.js"></script>
+	<script src="/toolkit/parseUri.js"></script>
+	<script src="/toolkit/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+	<script src="js/widget.js"></script>
+</head>
+<body>
+	<a href="index.html">back to homepage</a>
+	<!-- this section shows the query image -->
+	<div id="query"></div>
+	<!-- this section shows the matched images-->
+	<div id="result"></div>
+	<div id="popup"></div>
+
+	<script>
+var resultCascadeCols = 3;
+
+var imgJsonRootUrl = '';
+var imgRootUrl = '';
+var imgFuseRootUrl = '';
+
+$(document).ready(function() {
+	var url = window.location.href;
+	var iid = parseUri(url).queryKey.iid;
+	var imgJsonUrl = imgJsonRootUrl + iid + '.json';
+
+	$(document.createElement('img'))
+		.attr('src', imgRootUrl + iid + '.jpg')
+		.attr('height', '256px');
+		.appendTo($('query'));
+
+	// retrieve img match json:
+	// d is a list of [matchImgUrl, fuseImgUrl, eid]
+	$.getJSON(jsonUrl, function(d) {
+		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, function(item) {
+				//TODO
+		});
+		resultCascade.SetItemClickFunc(function(item){
+			var popupPanel = new PopupPanel($('#popup'), item, function(item) {
+				//TODO
+			});
+		});
+	});
+});
+	</script>
+</body>
+</html>
