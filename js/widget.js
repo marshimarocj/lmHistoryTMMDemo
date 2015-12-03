@@ -1,11 +1,11 @@
 function PageHeader(rootEle)
 {
-	//TODO
+	// Nothing To Do
 }
 
 function TabView(rootEle)
 {
-	//TODO
+	// Nothing To Do
 }
 
 // param is the number images shown simultaneously in carousel
@@ -63,9 +63,9 @@ function PagedTable(rootEle, d, param, processFunc)
 // let's take https://timeglider.com/widget/kitchen_sink.html for example
 // 1. in the top bar, remove "legend", "info", change "start" to "reset", the function of "reset" in same as "start": return to the initial state
 // 2. remove the timeglider icon in the bottom bar (the easiest way is to delete this icon from the folder)
-// 3. don't show the image row. 
+// 3. don't show the image row.
 // 4. use circle for all events
-// need to support the following functions: 
+// need to support the following functions:
 // 1. fit the range of dates in the screen
 // 2. once an event is clicked, pop up the panel that is similar to the example "netscape founded" (details are elaborated in fillPopupPanel function)
 function TimeGlider(rootEle, param)
@@ -82,7 +82,7 @@ function TimeGlider(rootEle, param)
 	}
 
 	//handles the layout and content of popup panel
-	// from top to bottom: 
+	// from top to bottom:
 	// 1. show date in title
 	// 2. show text descripiton on the top
 	// 3. show one image on the left
@@ -97,7 +97,7 @@ function TimeGlider(rootEle, param)
 	// privileged functions
 
 	// get data from a json url
-	// past data will be cleaned and the view will be refreshed by the new data, 
+	// past data will be cleaned and the view will be refreshed by the new data,
 	// see if we can add some animation for such transition
 	// data is a list of [eid, imgurl, text, who list, where list, when list]
 	this.GetData = function(url)

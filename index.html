@@ -1,56 +1,103 @@
 <html>
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
+
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+	<!-- this is the banner of our demo-->
+	<!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span> 
+					Image Profiling for History Events
+				</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<!-- ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul -->
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#about">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- h1 id="pageHeader">Image Profiling for History Events</h1 -->
+	<!-- use a tab widget -->
+	<!-- Nav tab -->
+
+	<div class="container theme-showcase" role="main">
+		<ul class="nav nav-tabs" id="tabView">
+			<li role="presentation" class="active">
+				<a href="#imgs" aria-controls="imgs" role="tab" data-toggle="tab" id="imgs-tab">image</a>
+			</li>
+			<li role="presentation">
+				<a href="#events" aria-controls="events" role="tab" data-toggle="tab" id="events-tab">event</a>
+			</li>
+			<li role="presentation">
+				<a href="#knowledge" aria-controls="knowledge" role="tab" data-toggle="tab" id="knowledge-tab">knowledge</a>
+			</li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="imgs">
+				<!-- this section shows a list of selected images, -->
+				<h2>What happened here in the past?</h2>
+				<!-- use a carousel widget -->
+				<div id="imgCarousel"></div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="events">
+				<!-- this section shows a list of preprared events -->
+				<h2>What do the events look like?</h2>
+				<!-- list widget -->
+				<div id="eventList"></div>
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="knowledge">
+				<!-- this section shows all the events from different views on the time line-->
+				<h2>Explore our history event knowledge base automatically extracted from images!</h2>
+				<div id="timeview">
+					<!-- this is a group of controls to select which subset of events to view on the time line -->
+					<table>
+						<tr>
+							<td>
+								<a href='#warList' id="warList">Browse by Period</a>
+								<a href='#sceneList' id="sceneList">Browse by Scene</a>
+								<a href='#objectList' id="objectList">Browse by Object</a>
+							</td>
+							<td>
+								<div id="pageTable"></div>
+							</td>
+						</tr>
+					</table>
+					<!-- this is a timeglider widget for viewing events on time line -->
+					<div id="timeglider"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- common -->
 	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
 	<script src="js/underscore-min.js"></script>
 	<script src="js/parseUri.js"></script>
 	<script src="js/widget.js"></script>
-	<!-- bootstrap -->
-	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
 	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 	<!-- timeglider -->
-</head>
-<body>
-	<!-- this is the banner of our demo-->
-	<h1 id="pageHeader">Image Profiling for History Events</h1>
-	<!-- use a tab widget -->
-	<ul id="tabView">
-		<li id="imgs">
-			<!-- this section shows a list of selected images, -->
-			<h2>What happened here in the past?</h2>
-			<!-- use a carousel widget -->
-			<div id="imgCarousel"></div>
-		</li>
-		<li id="events">
-			<!-- this section shows a list of preprared events -->
-			<h2>What do the events look like?</h2>
-			<!-- list widget -->
-			<div id="eventList"></div>
-		</li>
-		<li id="knowledge">
-			<!-- this section shows all the events from different views on the time line-->
-			<h2>Explore our history event knowledge base automatically extracted from images!</h2>
-			<div id="timeview">
-				<!-- this is a group of controls to select which subset of events to view on the time line -->
-				<table>
-					<tr>
-						<td>
-							<a href='#warList' id="warList">Browse by Period</a>
-							<a href='#sceneList' id="sceneList">Browse by Scene</a>
-							<a href='#objectList' id="objectList">Browse by Object</a>
-						</td>
-						<td>
-							<div id="pageTable"></div>
-						</td>
-					</tr>
-				</table>
-				<!-- this is a timeglider widget for viewing events on time line -->
-				<div id="timeglider"></div>
-			</div>
-		</li>
-	</ul>
 
 	<script>
 var imgJsonUrl = '';
@@ -96,7 +143,7 @@ $(document).ready(function() {
 	});
 
 	// event tab
-	$('#events').click(function() {
+	$('#events-tab').click(function() {
 		if(eventData != undefined) return;
 
 		$.getJSON(imgJsonUrl, function(d) {
