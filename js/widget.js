@@ -9,6 +9,8 @@ function TabView(rootEle)
 }
 
 // param is the number images shown simultaneously in carousel
+/*
+// Finished in index.html
 function Carousel(rootEle, d, param)
 {
 	///////////////////////////////////////////////
@@ -18,9 +20,10 @@ function Carousel(rootEle, d, param)
 	// bind clickFunc to each element's click event in the widget
 	this.SetItemClickFunc = function(clickFunc)
 	{
-		//TODO
+		// Nothing To Do
 	}
 }
+*/
 
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, param)
