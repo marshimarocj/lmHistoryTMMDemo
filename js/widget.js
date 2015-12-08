@@ -33,7 +33,7 @@ function Carousel(rootEle, d, param)
 	$.each(d, function(i, field) {
 		rootEle.children("ol").append('<li data-target="#' + rootId + '" data-slide-to="' + i + '"></li>');
 		rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
-						field.imgUrl + '" onclick="location.href=\'match.html?iid' + field.imgId + '\'"></div>');
+						field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
 	});
 	rootEle.children("ol").children("li").first().addClass("active");
 	rootEle.children("div.carousel-inner").children("div").first().addClass("active");
@@ -52,15 +52,13 @@ function ExtendedCarousel(rootEle, d, param)
 
 function ListView(rootEle, d)
 {
-	//TODO
-
 	///////////////////////////////////////////////
 	// privileged functions
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
 	$.each(d, function(i, field) {
-		rootEle.append('<a href="event.html?eid' + field.eid + '" class="list-group-item">' + field.text + '</a>');
+		rootEle.append('<a href="event.html?eid' + field[0] + '" class="list-group-item">' + field[1] + '</a>');
 	});
 /*	this.SetItemClickFunc = function(clickFunc)
 	{
@@ -145,15 +143,29 @@ function PopupPanel(rootEle, d, processFunc)
 // clickFunc(item), item is item in list d
 function CascadeLayout(rootEle, d, cols, processFunc)
 {
-	//TODO
-
 	///////////////////////////////////////////////
 	// privileged functions
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	this.SetItemClickFunc = function(clickFunc)
+	rootEle.masonry({
+		itemSelector: '.cascade-item',
+		isAnimated: true,
+		animationOptions: {
+			duration: 400
+		},
+		columnWidth: function(containerWidth) {
+			return containerWidth / cols;
+		}
+	});
+
+	$.each(d, function(i, field) {
+		$cascadeItem = $('<img class="cascade-item" src="' + field[0] + '" alt="' + field[2] + '" title="' + field[2] + '">');
+		rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
+	});
+/*	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO
 	};
+*/
 }

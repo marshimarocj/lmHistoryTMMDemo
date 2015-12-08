@@ -1,16 +1,11 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<!-- common -->
-	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
-	<script src="js/underscore-min.js"></script>
-	<script src="js/parseUri.js"></script>
-	<script src="js/widget.js"></script>
-	<!-- bootstrap -->
+
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
-	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
-	<!-- timeglider -->
+
+	<link rel="stylesheet" href="css/match.css">
 </head>
 <body>
 	<a href="index.html">back to homepage</a>
@@ -20,29 +15,40 @@
 	<div id="result"></div>
 	<div id="popup"></div>
 
+	<!-- common -->
+	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/parseUri.js"></script>
+	<script src="js/widget.js"></script>
+	<script src="js/jquery.masonry.min.js"></script>
+	<!-- bootstrap -->
+	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
+	<!-- timeglider -->
+
 	<script>
 var resultCascadeCols = 3;
 
-var imgJsonRootUrl = '';
-var queryImgRootUrl = '';
+var imgJsonRootUrl = 'testdata/img';
+var queryImgRootUrl = 'testdata/img';
 var matchImgRootUrl = '';
 var fuseImgRootUrl = '';
 
 $(document).ready(function() {
 	var url = window.location.href;
-	var iid = parseUri(url).queryKey.iid;
+	var iid = parseUri(url).queryKey.iid;	// not work
+	iid = url.split('iid')[1];
 	var imgJsonUrl = imgJsonRootUrl + iid + '.json';
 
-	var queryImgUrl = queryImgRootUrl + iid + '.jpg'
+	var queryImgUrl = queryImgRootUrl + iid + '.jpg';
 
 	$(document.createElement('img'))
 		.attr('src', queryImgUrl)
-		.attr('height', '256px');
-		.appendTo($('query'));
+		.attr('height', '128px')
+		.appendTo($('#query'));
 
 	// retrieve img match json:
 	// d is a list of [matchImgName, fuseImgName, text description]
-	$.getJSON(jsonUrl, function(d) {
+	$.getJSON(imgJsonUrl, function(d) {
 		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, function(item) {
 			// create and return img element
 		});
@@ -55,7 +61,7 @@ $(document).ready(function() {
 				// create content to popup panel
 				// the layout of content from top to bottom:
 				// left: query image, right: match image
-				// fused image: 
+				// fused image:
 				// text description
 
 				// return content's root div element
