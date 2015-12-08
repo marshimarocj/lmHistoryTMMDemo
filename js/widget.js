@@ -59,10 +59,14 @@ function ListView(rootEle, d)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	this.SetItemClickFunc = function(clickFunc)
+	$.each(d, function(i, field) {
+		rootEle.append('<a href="event.html?eid' + field.eid + '" class="list-group-item">' + field.text + '</a>');
+	});
+/*	this.SetItemClickFunc = function(clickFunc)
 	{
-		//TODO
+		// Nothing To Do
 	}
+*/
 }
 
 // param is {rows : int, cols: int}
