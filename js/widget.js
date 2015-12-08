@@ -1,3 +1,4 @@
+/*
 function PageHeader(rootEle)
 {
 	// Nothing To Do
@@ -7,10 +8,9 @@ function TabView(rootEle)
 {
 	// Nothing To Do
 }
+*/
 
 // param is the number images shown simultaneously in carousel
-/*
-// Finished in index.html
 function Carousel(rootEle, d, param)
 {
 	///////////////////////////////////////////////
@@ -18,12 +18,32 @@ function Carousel(rootEle, d, param)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	this.SetItemClickFunc = function(clickFunc)
+	rootId = rootEle.attr('id');
+	rootEle.append('<!-- Wrapper for slides -->' +
+				'<div class="carousel-inner" role="listbox"></div>' +
+				'<!-- Controls -->' +
+				'<a class="left carousel-control" href="#' + rootId + '" role="button" data-slide="prev">' +
+					'<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>' +
+					'<span class="sr-only">Previous</span>' +
+				'</a>' +
+				'<a class="right carousel-control" href="#' + rootId + '" role="button" data-slide="next">' +
+					'<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>' +
+					'<span class="sr-only">Next</span>' +
+				'</a>');
+	$.each(d, function(i, field) {
+		rootEle.children("ol").append('<li data-target="#' + rootId + '" data-slide-to="' + i + '"></li>');
+		rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
+						field.imgUrl + '" onclick="location.href=\'match.html?iid' + field.imgId + '\'"></div>');
+	});
+	rootEle.children("ol").children("li").first().addClass("active");
+	rootEle.children("div.carousel-inner").children("div").first().addClass("active");
+/*	this.SetItemClickFunc = function(clickFunc)
 	{
 		// Nothing To Do
 	}
-}
 */
+}
+
 
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, param)

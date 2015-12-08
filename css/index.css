@@ -4,5 +4,6 @@ body {
 }
 
 #imgCarousel .carousel-inner img {
+    width: 100%;
     cursor: pointer;
 }
