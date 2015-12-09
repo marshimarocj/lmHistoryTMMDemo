@@ -49,15 +49,11 @@ $(document).ready(function() {
 	// retrieve img match json:
 	// d is a list of [matchImgName, fuseImgName, text description]
 	$.getJSON(imgJsonUrl, function(d) {
-		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, function(item) {
+		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, matchImgRootUrl, function(item) {
 			// create and return img element
 		});
-		resultCascade.SetItemClickFunc(function(item){
-			var popupPanel = new PopupPanel($('#popup'), item, function(item) {
-				var matchImgUrl = matchImgRootUrl + item[0] + '.jpg';
-				var fuseImgUrl = fuseImgRootUrl + item[1] + '.jpg';
-				var text = item[2];
-
+		//resultCascade.SetItemClickFunc(function(item){
+			var popupPanel = new PopupPanel($('#popup'), d, queryImgUrl, matchImgRootUrl, fuseImgRootUrl, function(item) {
 				// create content to popup panel
 				// the layout of content from top to bottom:
 				// left: query image, right: match image
@@ -66,7 +62,7 @@ $(document).ready(function() {
 
 				// return content's root div element
 			});
-		});
+		//});
 	});
 });
 	</script>

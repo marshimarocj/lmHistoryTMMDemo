@@ -2,4 +2,30 @@
     width: 350px;
     margin: 2px;
     float: left;
+    cursor: pointer;
+}
+
+.centered {
+    text-align: center;
+}
+
+.img-query {
+    width: 250px;
+    height: 250px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.img-matched {
+    width: 250px;
+    height: 250px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.img-fused {
+    width: 500px;
+    height: 250px;
+    margin: 0px;
+    padding: 0px;
 }

@@ -132,16 +132,33 @@ function TimeGlider(rootEle, param)
 }
 
 // processFunc(d)
-function PopupPanel(rootEle, d, processFunc)
+function PopupPanel(rootEle, d, queryImgUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
 {
-	//TODO
+	$.each(d, function(i, field) {
+		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
+		var fuseImgUrl = fuseImgRootUrl + field[1] + '.jpg';
+		var text = field[2];
+		$modal = $('<div class="modal fade" id="popupModal' + i + '" role="dialog">' +
+				'<div class="modal-dialog" role="document">' +
+					'<div class="modal-content">' +
+						'<div class="modal-header">' +
+							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+							'<h4 class="modal-title">Popup panel</h4>' +
+						'</div>' +
+						'<div class="modal-footer centered">' +
+							'<img src="' + queryImgUrl + '" class="img-query">' +
+							'<img src="' + matchImgUrl + '" class="img-matched">' +
+							'<img src="' + fuseImgUrl + '" class="img-fused">' +
+						'</div></div></div></div>');
+		rootEle.append($modal);
+	});
 }
 
 // d is a list
 // cols is column number in layout
 // processFunc(item), item is item in list d
 // clickFunc(item), item is item in list d
-function CascadeLayout(rootEle, d, cols, processFunc)
+function CascadeLayout(rootEle, d, cols, matchImgRootUrl, processFunc)
 {
 	///////////////////////////////////////////////
 	// privileged functions
@@ -160,12 +177,14 @@ function CascadeLayout(rootEle, d, cols, processFunc)
 	});
 
 	$.each(d, function(i, field) {
-		$cascadeItem = $('<img class="cascade-item" src="' + field[0] + '" alt="' + field[2] + '" title="' + field[2] + '">');
+		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
+		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[2] +
+				'" title="' + field[2] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
 		rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
 	});
+
 /*	this.SetItemClickFunc = function(clickFunc)
 	{
-		//TODO
 	};
 */
 }
