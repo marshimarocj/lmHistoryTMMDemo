@@ -1,56 +1,66 @@
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<!-- common -->
-	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
-	<script src="js/underscore-min.js"></script>
-	<script src="js/parseUri.js"></script>
-	<script src="js/widget.js"></script>
 	<!-- bootstrap -->
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
-	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 	<!-- timeglider -->
 </head>
 <body>
 	<a href="index.html">back to homepage</a>
 	<!-- this section shows the text description of the event -->
-	<h1></h1>
-	<div id="text"></div>
+	<div id="text"><h1></h1></div>
 	<!-- this section shows the famous iconic image. Its a Carousel Widget-->
-	<h1>Extremely Famous Photos<h1>
-	<div id="iconic"></div>
+	<div class="container">
+		<div class="page-header">
+			<h2>Extremely Famous Photos</h2>
+		</div>
+		<!-- use a carousel widget -->
+		<div id="iconic" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators"></ol>
+		</div>
+	</div>
 	<!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
 	<h1></h1>
 	<div id="facet"></div>
 	<!-- the popup panel. It is a popup panel widget with extended carousel widget inside -->
 	<div id="facet-detail"></div>
 
+	<!-- common -->
+	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
+	<script src="js/underscore-min.js"></script>
+	<script src="js/parseUri.js"></script>
+	<script src="js/widget.js"></script>
+	<!-- bootstrap -->
+	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
+
 	<script>
-var iconicCarouselWidth = 1;
+// var iconicCarouselWidth = 1;
 var facetCascadeCols = 4;
 var detailCarouselWidth = 4;
 
-var eventJsonRootUrl = '';
+var eventJsonRootUrl = 'testdata/event';
 
 $(document).ready(function() {
 	// parse eid from parameter
 	var url = window.location.href;
-	var eid = parseUri(url).queryKey.eid;
+	var eid = parseUri(url).queryKey.eid; // not work
+	eid = url.split("eid")[1];
 	var jsonUrl = eventJsonRootUrl + eid + '.json';
 
 	// retrieve event detail json
 	// d: {
-	//	text: str, 
-	//	iconic: list of img urls, 
+	//	text: str,
+	//	iconic: list of img urls,
 	// 	facet: list of [list of img urls]
 	// }
 	$.getJSON(jsonUrl, function(d) {
 		//process text display
-		$('#text').html(d['text']);
+		$('#text').children('h1').html(d['text']);
 
 		//process iconic image display
-		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], iconicCarouselWidth, function(item) {
+		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], function(item) {
 			//create and return img element
 		});
 

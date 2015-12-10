@@ -32,8 +32,13 @@ function Carousel(rootEle, d, param)
 				'</a>');
 	$.each(d, function(i, field) {
 		rootEle.children("ol").append('<li data-target="#' + rootId + '" data-slide-to="' + i + '"></li>');
-		rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
-						field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
+		if (typeof field == 'object') {
+			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
+							field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
+		} else {
+			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + field + '"></div>');
+		}
+
 	});
 	rootEle.children("ol").children("li").first().addClass("active");
 	rootEle.children("div.carousel-inner").children("div").first().addClass("active");
