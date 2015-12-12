@@ -5,6 +5,9 @@
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
 	<!-- timeglider -->
+
+	<link rel="stylesheet" href="css/lightslider.min.css">
+	<link rel="stylesheet" href="css/event.css">
 </head>
 <body>
 	<a href="index.html">back to homepage</a>
@@ -25,19 +28,21 @@
 	<h1></h1>
 	<div id="facet"></div>
 	<!-- the popup panel. It is a popup panel widget with extended carousel widget inside -->
-	<div id="facet-detail"></div>
+	<!-- div id="facet-detail"></div -->
 
 	<!-- common -->
 	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
 	<script src="js/underscore-min.js"></script>
 	<script src="js/parseUri.js"></script>
 	<script src="js/widget.js"></script>
+	<script src="js/jquery.masonry.min.js"></script>
+	<script src="js/lightslider.js"></script>
 	<!-- bootstrap -->
 	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 
 	<script>
 // var iconicCarouselWidth = 1;
-var facetCascadeCols = 4;
+var facetCascadeCols = 3;
 var detailCarouselWidth = 4;
 
 var eventJsonRootUrl = 'testdata/event';
@@ -65,7 +70,7 @@ $(document).ready(function() {
 		});
 
 		//process facet display
-		var facetCascade = new CascadeLayout($('#facet'), d['facet'], facetCascadeCols, function(item) {
+		var facetCascade = new ExtendedCarousel($('#facet'), d['facet'], facetCascadeCols, function(item) {
 			//create extended carousel element, set its itemClickFunc and return this extended carousel element
 		});
 	});

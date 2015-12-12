@@ -1,5 +1,5 @@
 {
     "text": "aaaaaaaaaaaaaaaaaaaaaa",
     "iconic": ["testdata/img1.jpg", "testdata/img1.jpg", "testdata/img1.jpg", "testdata/img1.jpg"],
-    "facet": [["testdata/img2.jpg", "testdata/img2.jpg"], ["testdata/img3.jpg", "testdata/img3.jpg"]]
+    "facet": [["testdata/img2.jpg", "testdata/img2.jpg"], ["testdata/img3.jpg", "testdata/img3.jpg"], ["testdata/img2.jpg", "testdata/img2.jpg"], ["testdata/img3.jpg", "testdata/img3.jpg"], ["testdata/img2.jpg", "testdata/img2.jpg"], ["testdata/img3.jpg", "testdata/img3.jpg"]]
 }

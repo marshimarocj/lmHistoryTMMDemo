@@ -51,8 +51,35 @@ function Carousel(rootEle, d, param)
 
 
 // param is the number images shown simultaneously in the bottom carousel
-function ExtendedCarousel(rootEle, d, param)
+function ExtendedCarousel(rootEle, d, cols, param)
 {
+	$.each(d, function(i, field) {
+		var lightSliderId = "lightSlider" + i;
+		rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
+		$.each(field, function(j, img) {
+			$('#' + lightSliderId).append('<li data-thumb="' + img + '"><img src="' + img + '"></li>');
+		});
+		$('#' + lightSliderId).lightSlider({
+		    gallery: true,
+		    item: 1,
+			speed:500,
+            auto:true,
+		    loop:true,
+		    slideMargin: 0,
+		    thumbItem: 9
+		});
+	});
+
+	rootEle.masonry({
+		itemSelector: '.cascade-item',
+		isAnimated: true,
+		animationOptions: {
+			duration: 400
+		},
+		columnWidth: function(containerWidth) {
+			return containerWidth / cols;
+		}
+	});
 }
 
 function ListView(rootEle, d)

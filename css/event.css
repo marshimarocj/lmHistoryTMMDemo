@@ -1,0 +1,23 @@
+.cascade-item {
+    width: 350px;
+    margin: 2px;
+    float: left;
+    cursor: pointer;
+}
+
+.cascade-item ul {
+    list-style: none outside none;
+    padding-left: 0;
+    margin-bottom:0;
+}
+.cascade-item li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor:pointer;
+}
+.cascade-item img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
