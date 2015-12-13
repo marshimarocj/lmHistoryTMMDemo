@@ -97,75 +97,7 @@
 							<a href='#sceneList' class="list-group-item" id="sceneList">Browse by Scene</a>
 							<a href='#objectList' class="list-group-item" id="objectList">Browse by Object</a>
 						</div>
-						<div class="col-lg-8 col-md-8 col-xs-8" id="pageTable">
-
-							<table id="tableData" class="table table-bordered table-striped">
-							          <tbody>
-							    <tr>
-							              <td>Frank</td>
-							              <td>Shoulder</td>
-							              <td>1246</td>
-							            </tr>
-							    <tr>
-							              <td>John</td>
-							              <td>Jameson</td>
-							              <td>4564</td>
-							            </tr>
-							    <tr>
-							              <td>Philip</td>
-							              <td>Jenkins</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>Maria</td>
-							              <td>Carlston</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>Julia</td>
-							              <td>Tampelton</td>
-							              <td>1246</td>
-							            </tr>
-							    <tr>
-							              <td>Jane</td>
-							              <td>Conor</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>Susan</td>
-							              <td>Crane</td>
-							              <td>1246</td>
-							            </tr>
-							    <tr>
-							              <td>Lucas</td>
-							              <td>Fenric</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>Mark</td>
-							              <td>Fenric</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>Hilde</td>
-							              <td>Mayer</td>
-							              <td>4456</td>
-							            </tr>
-							    <tr>
-							              <td>John</td>
-							              <td>Tron</td>
-							              <td>1246</td>
-							            </tr>
-							    <tr>
-							              <td>Hans</td>
-							              <td>Stark</td>
-							              <td>4564</td>
-							            </tr>
-							  </tbody>
-							        </table>
-
-
-						</div>
+						<div class="col-lg-8 col-md-8 col-xs-8" id="pageTable"></div>
 						<!-- this is a timeglider widget for viewing events on time line -->
 						<div class="col-lg-12 col-md-12 col-xs-12" id="timeglider"></div>
 					</div>
@@ -246,7 +178,7 @@ $(document).ready(function() {
 		*/
 		});
 	});
-$('#tableData').page({limit: 3, activePage: 1});
+
 	// knowledge tab
 	_.each(['#warList', '#sceneList', '#objectList'], function(d, i) {
 		$(d).click(function() {

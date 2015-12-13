@@ -109,7 +109,29 @@ function PagedTable(rootEle, d, param, processFunc)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	
+	rootEle.html('<table id="tableData" class="table table-bordered table-striped"></table>');
+	$tbody = $('<tbody></tbody>');
+	var len = d.length;
+	var cols = param['cols'];
+	var i = 0;
+	for (i; i < Math.floor(len / cols); i ++) {
+		$tr = ('<tr></tr>');
+		for (var j = 0; j < cols; j ++) {
+			$tr.append('<td>' + d[i * cols + j][1] + '</td>');
+		}
+		$tbody.append($tr);
+	}
+	$tr = ('<tr></tr>');
+	for (var j = 0; j < cols; j ++) {
+		if (d[i * cols + j] == 'undefined') {
+			$tr.append('<td></td>');
+		} else {
+			$tr.append('<td>' + d[i * cols + j][1] + '</td>');
+		}
+	}
+	$tbody.append($tr);
+	$('#tableData').append($tbody);
+	$('#tableData').page({limit: param['rows']});
 
 /*	this.SetItemClickFunc = function(clickFunc)
 	{
