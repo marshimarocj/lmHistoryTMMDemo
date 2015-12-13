@@ -109,10 +109,13 @@ function PagedTable(rootEle, d, param, processFunc)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	this.SetItemClickFunc = function(clickFunc)
+	
+
+/*	this.SetItemClickFunc = function(clickFunc)
 	{
 		//TODO
 	}
+*/
 }
 
 // param is {height: int, width: int}
