@@ -152,6 +152,20 @@ function PagedTable(rootEle, d, param, processFunc)
 // 2. once an event is clicked, pop up the panel that is similar to the example "netscape founded" (details are elaborated in fillPopupPanel function)
 function TimeGlider(rootEle, param)
 {
+    var data_source = [
+        {
+            "id":"history",
+            "title":"History events",
+            "focus_date":"1936-07-01 12:00:00",
+            "initial_zoom":"39",
+            "image_lane_height":0,
+            "events":[
+            ],
+            "tags":{"mardigras":2,"chris":2,"arizona":2,"netscape":2,"flop":1}
+    
+        }
+    ];
+    
 	//TODO
 
 	///////////////////////////////////////////////d
@@ -161,10 +175,17 @@ function TimeGlider(rootEle, param)
 	function _fitin(start, end)
 	{
 		//TODO
+        var stimestamp = $.myTime.DateToUnix(start);
+        var etimestamp = $.myTime.DateToUnix(end);
+        var timestamp = (stimestamp + etimestamp)/2;
+        var duration = (etimestamp-stimestamp)/30;
+        
+        data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
+        data_source[0].initial_zoom = 44;
 	}
 
 	//handles the layout and content of popup panel
-	// from top to bottom:
+	// from top to bottom: 
 	// 1. show date in title
 	// 2. show text descripiton on the top
 	// 3. show one image on the left
@@ -179,12 +200,114 @@ function TimeGlider(rootEle, param)
 	// privileged functions
 
 	// get data from a json url
-	// past data will be cleaned and the view will be refreshed by the new data,
+	// past data will be cleaned and the view will be refreshed by the new data, 
 	// see if we can add some animation for such transition
 	// data is a list of [eid, imgurl, text, who list, where list, when list]
 	this.GetData = function(url)
 	{
-		//TODO
+	   
+        $.getJSON(url, function( data ) {
+            
+            var starttime = 0;
+            var endtime = 0;
+            
+            //data_source = base_source;
+            data_source[0].events = [];
+            
+            $.each(data, function(index,obj){ //遍历json数据列
+            
+                var event = {};
+                event.id = obj.id;
+                
+                event.description = obj.text;
+                if(obj.text.length > 10){
+                    event.title = obj.text.substr(0, 10)+"...";  //取前10个字符
+                }else{
+                    event.title = obj.text;
+                }
+                
+                event.link = obj.imgurl;
+                event.startdate = obj.when;
+                event.high_threshold = 60;
+                event.importance = 50;
+                event.date_display = "ye";
+                event.icon = "circle_black.png";
+                event.image = "img/alonzo_church.jpg";
+                
+                data_source[0].events.push(event);
+                
+                if (index == 0)
+                    starttime = obj.when;
+                endtime = obj.when;
+            });
+            //alert(endtime);
+            //调整设置参数
+            _fitin(starttime, endtime);
+            
+            rootEle.timeline({
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
+				"timezone":"-06:00",
+				"icon_folder":"css/timeglider-1.0.3/icons/",
+				"data_source": data_source,
+				"show_footer":true,
+				"display_zoom_level":false,
+				"mousewheel":"zoom", // zoom | pan | none
+				"constrain_to_data":false,
+				"image_lane_height":100,
+				"loaded":function () { 
+					// loaded callback function
+				 }
+		
+    			}).resizable({
+    					stop:function(){ 
+    						// $(this).data("timeline").resize();
+    					}
+    			});
+       
+       
+       /*
+            //TODO
+            if (!init){
+                 tg1 = rootEle.timeline({
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
+				"timezone":"-06:00",
+				"icon_folder":"css/timeglider-1.0.3/icons/",
+				"data_source": data_source,
+				"show_footer":true,
+				"display_zoom_level":true,
+				"mousewheel":"zoom", // zoom | pan | none
+				"constrain_to_data":true,
+				"image_lane_height":100,
+				"loaded":function () { 
+					// loaded callback function
+				 }
+		
+    			}).resizable({
+    					stop:function(){ 
+    						// $(this).data("timeline").resize();
+    					}
+    			});
+                tg_instance = tg1.data("timeline");
+                tg_instance.refresh();
+                //alert(tg_instance);
+                //init = true;
+            }else{
+                tg_instance.reloadTimeline("history", "json/bf.json");
+                tg_instance.refresh();
+            }
+            */
+            
+            
+            
+        });
+        
+        
+       
+        
 	}
 }
 
