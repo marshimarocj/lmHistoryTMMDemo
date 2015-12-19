@@ -31,16 +31,16 @@
 	<script>
 var resultCascadeCols = 3;
 
-var imgJsonRootUrl = 'testdata/img';
-var queryImgRootUrl = 'testdata/img';
-var matchImgRootUrl = '';
-var fuseImgRootUrl = '';
+var imgJsonRootUrl = 'matchLabel/';
+var queryImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/flickrLandmark/';
+var matchImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
+var fuseImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/';
 
 $(document).ready(function() {
 	var url = window.location.href;
 	var iid = parseUri(url).queryKey.iid;	// not work
 	iid = url.split('iid')[1];
-	var imgJsonUrl = imgJsonRootUrl + iid + '.json';
+	var imgJsonUrl = imgJsonRootUrl + iid + '.triple.json';
 
 	var queryImgUrl = queryImgRootUrl + iid + '.jpg';
 
@@ -50,13 +50,13 @@ $(document).ready(function() {
 		.appendTo($('#query'));
 
 	// retrieve img match json:
-	// d is a list of [matchImgName, fuseImgName, text description]
+	// d is a list of [queryImg, matchImgName, fuseImgName, text description]
 	$.getJSON(imgJsonUrl, function(d) {
 		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, matchImgRootUrl, function(item) {
 			// create and return img element
 		});
 		//resultCascade.SetItemClickFunc(function(item){
-			var popupPanel = new PopupPanel($('#popup'), d, queryImgUrl, matchImgRootUrl, fuseImgRootUrl, function(item) {
+			var popupPanel = new PopupPanel($('#popup'), d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, function(item) {
 				// create content to popup panel
 				// the layout of content from top to bottom:
 				// left: query image, right: match image

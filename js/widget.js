@@ -314,12 +314,13 @@ function TimeGlider(rootEle, param)
 }
 
 // processFunc(d)
-function PopupPanel(rootEle, d, queryImgUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
+function PopupPanel(rootEle, d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
 {
 	$.each(d, function(i, field) {
-		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
-		var fuseImgUrl = fuseImgRootUrl + field[1] + '.jpg';
-		var text = field[2];
+		var queryImgUrl = queryImgRootUrl + field[0];
+		var matchImgUrl = matchImgRootUrl + field[1];
+		var fuseImgUrl = fuseImgRootUrl + field[2];
+		var text = field[3];
 		$modal = $('<div class="modal fade" id="popupModal' + i + '" role="dialog">' +
 				'<div class="modal-dialog" role="document">' +
 					'<div class="modal-content">' +
@@ -359,9 +360,9 @@ function CascadeLayout(rootEle, d, cols, matchImgRootUrl, processFunc)
 	});
 
 	$.each(d, function(i, field) {
-		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
-		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[2] +
-				'" title="' + field[2] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
+		var matchImgUrl = matchImgRootUrl + field[1];
+		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[3] +
+				'" title="' + field[3] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
 		rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
 	});
 
