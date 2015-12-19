@@ -18,6 +18,7 @@ function Carousel(rootEle, d, param)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
+	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 	rootId = rootEle.attr('id');
 	rootEle.append('<!-- Wrapper for slides -->' +
 				'<div class="carousel-inner" role="listbox"></div>' +
@@ -36,7 +37,7 @@ function Carousel(rootEle, d, param)
 			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
 							field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
 		} else {
-			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + field + '"></div>');
+			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + imgRootUrl + field + '"></div>');
 		}
 
 	});
@@ -53,11 +54,12 @@ function Carousel(rootEle, d, param)
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, cols, param)
 {
+	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 	$.each(d, function(i, field) {
 		var lightSliderId = "lightSlider" + i;
 		rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
 		$.each(field, function(j, img) {
-			$('#' + lightSliderId).append('<li data-thumb="' + img + '"><img src="' + img + '"></li>');
+			$('#' + lightSliderId).append('<li data-thumb="' + imgRootUrl + img + '"><img src="' + imgRootUrl + img + '"></li>');
 		});
 		$('#' + lightSliderId).lightSlider({
 		    gallery: true,
@@ -162,10 +164,10 @@ function TimeGlider(rootEle, param)
             "events":[
             ],
             "tags":{"mardigras":2,"chris":2,"arizona":2,"netscape":2,"flop":1}
-    
+
         }
     ];
-    
+
 	//TODO
 
 	///////////////////////////////////////////////d
@@ -179,13 +181,13 @@ function TimeGlider(rootEle, param)
         var etimestamp = $.myTime.DateToUnix(end);
         var timestamp = (stimestamp + etimestamp)/2;
         var duration = (etimestamp-stimestamp)/30;
-        
+
         data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
         data_source[0].initial_zoom = 44;
 	}
 
 	//handles the layout and content of popup panel
-	// from top to bottom: 
+	// from top to bottom:
 	// 1. show date in title
 	// 2. show text descripiton on the top
 	// 3. show one image on the left
@@ -200,32 +202,32 @@ function TimeGlider(rootEle, param)
 	// privileged functions
 
 	// get data from a json url
-	// past data will be cleaned and the view will be refreshed by the new data, 
+	// past data will be cleaned and the view will be refreshed by the new data,
 	// see if we can add some animation for such transition
 	// data is a list of [eid, imgurl, text, who list, where list, when list]
 	this.GetData = function(url)
 	{
-	   
+
         $.getJSON(url, function( data ) {
-            
+
             var starttime = 0;
             var endtime = 0;
-            
+
             //data_source = base_source;
             data_source[0].events = [];
-            
+
             $.each(data, function(index,obj){ //遍历json数据列
-            
+
                 var event = {};
                 event.id = obj.id;
-                
+
                 event.description = obj.text;
                 if(obj.text.length > 10){
                     event.title = obj.text.substr(0, 10)+"...";  //取前10个字符
                 }else{
                     event.title = obj.text;
                 }
-                
+
                 event.link = obj.imgurl;
                 event.startdate = obj.when;
                 event.high_threshold = 60;
@@ -233,9 +235,9 @@ function TimeGlider(rootEle, param)
                 event.date_display = "ye";
                 event.icon = "circle_black.png";
                 event.image = "img/alonzo_church.jpg";
-                
+
                 data_source[0].events.push(event);
-                
+
                 if (index == 0)
                     starttime = obj.when;
                 endtime = obj.when;
@@ -243,11 +245,11 @@ function TimeGlider(rootEle, param)
             //alert(endtime);
             //调整设置参数
             _fitin(starttime, endtime);
-            
+
             rootEle.timeline({
-						
-				"min_zoom":1, 
-				"max_zoom":50, 
+
+				"min_zoom":1,
+				"max_zoom":50,
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -256,24 +258,24 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":false,
 				"image_lane_height":100,
-				"loaded":function () { 
+				"loaded":function () {
 					// loaded callback function
 				 }
-		
+
     			}).resizable({
-    					stop:function(){ 
+    					stop:function(){
     						// $(this).data("timeline").resize();
     					}
     			});
-       
-       
+
+
        /*
             //TODO
             if (!init){
                  tg1 = rootEle.timeline({
-						
-				"min_zoom":1, 
-				"max_zoom":50, 
+
+				"min_zoom":1,
+				"max_zoom":50,
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -282,12 +284,12 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":true,
 				"image_lane_height":100,
-				"loaded":function () { 
+				"loaded":function () {
 					// loaded callback function
 				 }
-		
+
     			}).resizable({
-    					stop:function(){ 
+    					stop:function(){
     						// $(this).data("timeline").resize();
     					}
     			});
@@ -300,14 +302,14 @@ function TimeGlider(rootEle, param)
                 tg_instance.refresh();
             }
             */
-            
-            
-            
+
+
+
         });
-        
-        
-       
-        
+
+
+
+
 	}
 }
 
