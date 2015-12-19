@@ -211,8 +211,9 @@ $(document).ready(function() {
 	// knowledge tab
 	_.each(['#warList', '#sceneList', '#objectList'], function(d, i) {
 		$(d).click(function() {
+			var param = {rows: 4, cols: 5};
 			if(browseData[i] != undefined){// refresh paged table with stored data
-				var pagedTable = new PagedTable($('#pageTable'), d, param, pagedTableProcessFunc);
+				var pagedTable = new PagedTable($('#pageTable'), browseData[i], param, pagedTableProcessFunc);
 				// pagedTable.SetItemClickFunc(pagedTableClickFunc);
 			}
 			else
@@ -220,7 +221,6 @@ $(document).ready(function() {
 				// d is a list of [wordId, word]
 				$.getJSON(browseJsonUrls[i], function (d) {// get data to refresh paged table
 					browseData[i] = d;
-					var param = {rows: 4, cols: 5};
 					var pagedTable = new PagedTable($('#pageTable'), d, param, pagedTableProcessFunc);
 					// pagedTable.SetItemClickFunc(pagedTableClickFunc);
 				});
