@@ -117,15 +117,15 @@ function PagedTable(rootEle, d, param, processFunc)
 	var cols = param['cols'];
 	var i = 0;
 	for (i; i < Math.floor(len / cols); i ++) {
-		$tr = ('<tr></tr>');
+		$tr = $('<tr></tr>');
 		for (var j = 0; j < cols; j ++) {
 			$tr.append('<td>' + d[i * cols + j][1] + '</td>');
 		}
 		$tbody.append($tr);
 	}
-	$tr = ('<tr></tr>');
+	$tr = $('<tr></tr>');
 	for (var j = 0; j < cols; j ++) {
-		if (d[i * cols + j] == 'undefined') {
+		if (d[i * cols + j] == undefined) {
 			$tr.append('<td></td>');
 		} else {
 			$tr.append('<td>' + d[i * cols + j][1] + '</td>');

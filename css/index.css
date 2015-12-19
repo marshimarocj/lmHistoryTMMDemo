@@ -3,6 +3,10 @@ body {
     padding-bottom: 30px;
 }
 
+.navbar-fixed-top {
+    height: 50px;
+}
+
 #imgCarousel .carousel-inner img {
     width: 100%;
     cursor: pointer;
