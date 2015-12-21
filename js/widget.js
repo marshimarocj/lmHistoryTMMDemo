@@ -52,23 +52,25 @@ function ExtendedCarousel(rootEle, d, cols, param)
         gallery: true,
         item: 1,
       speed:500,
-            auto:true,
         loop:true,
         slideMargin: 0,
         thumbItem: 9
     });
   });
 
-  rootEle.masonry({
-    itemSelector: '.cascade-item',
-    isAnimated: true,
+	rootEle.imagesLoaded(function(){
+		rootEle.masonry({
+			itemSelector: '.cascade-item',
+/*			isAnimated: true,
     animationOptions: {
       duration: 400
     },
+*/
     columnWidth: function(containerWidth) {
       return containerWidth / cols;
     }
   });
+	});
 }
 
 function ListView(rootEle, d, processFunc)
@@ -333,10 +335,22 @@ function CascadeLayout(rootEle, d, cols, processFunc)
     // rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
 
     var cascadeItemHtml = processFunc(field);
-    rootEle.append($(cascadeItemHtml));
+		// $cascadeItem = $(cascadeItemHtml);
+		rootEle.append($(cascadeItemHtml));//.masonry('appended', $cascadeItem);
   });
 
-  rootEle.imagesLoaded().progress(function(imgLoad, image){
-    rootEle.mansory('layout');
-  });
+	rootEle.imagesLoaded(function(){
+		rootEle.masonry({
+			itemSelector: '.cascade-item',
+/*			isAnimated: true,
+			animationOptions: {
+				duration: 400
+			},
+*/
+			columnWidth: function(containerWidth) {
+				return containerWidth / cols;
+			}
+		});
+	});
+
 }
