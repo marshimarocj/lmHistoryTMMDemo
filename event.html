@@ -40,6 +40,7 @@
 	<script src="js/widget.js"></script>
 	<script src="js/jquery.masonry.min.js"></script>
 	<script src="js/lightslider.js"></script>
+	<script src="js/imagesloaded.pkgd.min.js"></script>
 	<!-- bootstrap -->
 	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 
@@ -47,8 +48,9 @@
 // var iconicCarouselWidth = 1;
 var facetCascadeCols = 3;
 var detailCarouselWidth = 4;
+var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryTMMData/img/imgs/';
 
-var eventJsonRootUrl = 'events/';
+var eventJsonRootUrl = 'json/events/';
 
 $(document).ready(function() {
 	// parse eid from parameter
@@ -60,7 +62,7 @@ $(document).ready(function() {
 	// retrieve event detail json
 	// d: {
 	//	text: str,
-	//	iconic: list of img urls,
+	//	iconic: list of img names,
 	// 	facet: list of [list of img urls]
 	// }
 	$.getJSON(jsonUrl, function(d) {
@@ -68,9 +70,12 @@ $(document).ready(function() {
 		$('#text').children('h1').html(d['text']);
 
 		//process iconic image display
-		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], function(item) {
-			//create and return img element
-		});
+		var iconicCarousel = new Carousel($('#iconic'), d['iconic'], {}, 
+			function(item){
+				var imgUrl = imgRootUrl + item;
+				console.log(imgUrl);
+				return '<div class="item"><img src="' + imgUrl + '"></div>';
+			});
 
 		//process facet display
 		var facetCascade = new ExtendedCarousel($('#facet'), d['facet'], facetCascadeCols, function(item) {
