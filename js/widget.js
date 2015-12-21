@@ -18,7 +18,6 @@ function Carousel(rootEle, d, param)
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 	rootId = rootEle.attr('id');
 	rootEle.append('<!-- Wrapper for slides -->' +
 				'<div class="carousel-inner" role="listbox"></div>' +
@@ -37,7 +36,7 @@ function Carousel(rootEle, d, param)
 			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
 							field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
 		} else {
-			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + imgRootUrl + field + '"></div>');
+			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + field + '"></div>');
 		}
 
 	});
@@ -54,12 +53,11 @@ function Carousel(rootEle, d, param)
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, cols, param)
 {
-	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 	$.each(d, function(i, field) {
 		var lightSliderId = "lightSlider" + i;
 		rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
 		$.each(field, function(j, img) {
-			$('#' + lightSliderId).append('<li data-thumb="' + imgRootUrl + img + '"><img src="' + imgRootUrl + img + '"></li>');
+			$('#' + lightSliderId).append('<li data-thumb="' + img + '"><img src="' + img + '"></li>');
 		});
 		$('#' + lightSliderId).lightSlider({
 		    gallery: true,
@@ -117,15 +115,15 @@ function PagedTable(rootEle, d, param, processFunc)
 	var cols = param['cols'];
 	var i = 0;
 	for (i; i < Math.floor(len / cols); i ++) {
-		$tr = $('<tr></tr>');
+		$tr = ('<tr></tr>');
 		for (var j = 0; j < cols; j ++) {
 			$tr.append('<td>' + d[i * cols + j][1] + '</td>');
 		}
 		$tbody.append($tr);
 	}
-	$tr = $('<tr></tr>');
+	$tr = ('<tr></tr>');
 	for (var j = 0; j < cols; j ++) {
-		if (d[i * cols + j] == undefined) {
+		if (d[i * cols + j] == 'undefined') {
 			$tr.append('<td></td>');
 		} else {
 			$tr.append('<td>' + d[i * cols + j][1] + '</td>');
@@ -164,10 +162,10 @@ function TimeGlider(rootEle, param)
             "events":[
             ],
             "tags":{"mardigras":2,"chris":2,"arizona":2,"netscape":2,"flop":1}
-
+    
         }
     ];
-
+    
 	//TODO
 
 	///////////////////////////////////////////////d
@@ -177,17 +175,17 @@ function TimeGlider(rootEle, param)
 	function _fitin(start, end)
 	{
 		//TODO
-        var stimestamp = $.myTime.DateToUnix(start);
-        var etimestamp = $.myTime.DateToUnix(end);
+        var stimestamp = $.myTime.ZCDateToUnix(start);
+        var etimestamp = $.myTime.ZCDateToUnix(end);
         var timestamp = (stimestamp + etimestamp)/2;
         var duration = (etimestamp-stimestamp)/30;
-
+        
         data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
-        data_source[0].initial_zoom = 44;
+        data_source[0].initial_zoom = 50;
 	}
 
 	//handles the layout and content of popup panel
-	// from top to bottom:
+	// from top to bottom: 
 	// 1. show date in title
 	// 2. show text descripiton on the top
 	// 3. show one image on the left
@@ -202,54 +200,62 @@ function TimeGlider(rootEle, param)
 	// privileged functions
 
 	// get data from a json url
-	// past data will be cleaned and the view will be refreshed by the new data,
+	// past data will be cleaned and the view will be refreshed by the new data, 
 	// see if we can add some animation for such transition
 	// data is a list of [eid, imgurl, text, who list, where list, when list]
 	this.GetData = function(url)
 	{
-
+	   
         $.getJSON(url, function( data ) {
-
+            
             var starttime = 0;
             var endtime = 0;
-
+            
             //data_source = base_source;
             data_source[0].events = [];
-
+            
             $.each(data, function(index,obj){ //遍历json数据列
-
+            
                 var event = {};
-                event.id = obj.id;
-
-                event.description = obj.text;
-                if(obj.text.length > 10){
-                    event.title = obj.text.substr(0, 10)+"...";  //取前10个字符
+                event.id = obj[0];
+                
+                event.description = obj[2];
+                if(obj[2].length > 10){
+                    event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
                 }else{
-                    event.title = obj.text;
+                    event.title = obj[2].text;
                 }
-
-                event.link = obj.imgurl;
-                event.startdate = obj.when;
+                
+                event.link = obj[1];
+                event.startdate = obj[5][0];
                 event.high_threshold = 60;
                 event.importance = 50;
                 event.date_display = "ye";
                 event.icon = "circle_black.png";
-                event.image = "img/alonzo_church.jpg";
-
+                event.image = "http://222.29.193.172:8006/lmHistoryTMMData/img/imgs/"+obj[1];
+                
                 data_source[0].events.push(event);
-
-                if (index == 0)
-                    starttime = obj.when;
-                endtime = obj.when;
+                
+                if (starttime == 0 && endtime == 0){
+                    starttime = obj[5][0];
+					endtime = obj[5][0];
+				}else{
+					var nowtime = $.myTime.ZCDateToUnix(obj[5][0]);
+					if (nowtime < $.myTime.ZCDateToUnix(starttime))
+						starttime = obj[5][0];
+					if (nowtime > $.myTime.ZCDateToUnix(endtime)){
+						endtime = obj[5][0];
+					}
+				}
             });
             //alert(endtime);
             //调整设置参数
             _fitin(starttime, endtime);
-
+            
             rootEle.timeline({
-
-				"min_zoom":1,
-				"max_zoom":50,
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -258,24 +264,24 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":false,
 				"image_lane_height":100,
-				"loaded":function () {
+				"loaded":function () { 
 					// loaded callback function
 				 }
-
+		
     			}).resizable({
-    					stop:function(){
+    					stop:function(){ 
     						// $(this).data("timeline").resize();
     					}
     			});
-
-
+       
+       
        /*
             //TODO
             if (!init){
                  tg1 = rootEle.timeline({
-
-				"min_zoom":1,
-				"max_zoom":50,
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -284,12 +290,12 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":true,
 				"image_lane_height":100,
-				"loaded":function () {
+				"loaded":function () { 
 					// loaded callback function
 				 }
-
+		
     			}).resizable({
-    					stop:function(){
+    					stop:function(){ 
     						// $(this).data("timeline").resize();
     					}
     			});
@@ -302,25 +308,24 @@ function TimeGlider(rootEle, param)
                 tg_instance.refresh();
             }
             */
-
-
-
+            
+            
+            
         });
-
-
-
-
+        
+        
+       
+        
 	}
 }
 
 // processFunc(d)
-function PopupPanel(rootEle, d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
+function PopupPanel(rootEle, d, queryImgUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
 {
 	$.each(d, function(i, field) {
-		var queryImgUrl = queryImgRootUrl + field[0];
-		var matchImgUrl = matchImgRootUrl + field[1];
-		var fuseImgUrl = fuseImgRootUrl + field[2];
-		var text = field[3];
+		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
+		var fuseImgUrl = fuseImgRootUrl + field[1] + '.jpg';
+		var text = field[2];
 		$modal = $('<div class="modal fade" id="popupModal' + i + '" role="dialog">' +
 				'<div class="modal-dialog" role="document">' +
 					'<div class="modal-content">' +
@@ -360,9 +365,9 @@ function CascadeLayout(rootEle, d, cols, matchImgRootUrl, processFunc)
 	});
 
 	$.each(d, function(i, field) {
-		var matchImgUrl = matchImgRootUrl + field[1];
-		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[3] +
-				'" title="' + field[3] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
+		var matchImgUrl = matchImgRootUrl + field[0] + '.jpg';
+		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[2] +
+				'" title="' + field[2] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
 		rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
 	});
 

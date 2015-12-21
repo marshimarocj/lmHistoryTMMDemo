@@ -8,12 +8,28 @@
             CurTime: function(){
                 return Date.parse(new Date())/1000;
             },
+			/**              
+             * 日期 转换为 Unix时间戳
+             * @param <string> 2014-01  日期格式              
+             * @return <int>        unix时间戳(秒)              
+             */
+            ZCDateToUnix: function(string) {
+                var d = (string ? string : '').split('-', 2);
+                return (new Date(
+                        parseInt(d[0], 10) || null,
+                        (parseInt(d[1], 10) || 1) - 1,
+						null,
+						null,
+						null,
+						null)).getTime() / 1000;
+            },
             /**              
              * 日期 转换为 Unix时间戳
              * @param <string> 2014-01-01 20:20:20  日期格式              
              * @return <int>        unix时间戳(秒)              
              */
             DateToUnix: function(string) {
+				alert(string);
                 var f = string.split(' ', 2);
                 var d = (f[0] ? f[0] : '').split('-', 3);
                 var t = (f[1] ? f[1] : '').split(':', 3);
