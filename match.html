@@ -24,24 +24,24 @@
 	<script src="js/parseUri.js"></script>
 	<script src="js/widget.js"></script>
 	<script src="js/jquery.masonry.min.js"></script>
+	<script src="js/imagesloaded.pkgd.min.js"></script>
 	<!-- bootstrap -->
 	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 	<!-- timeglider -->
 
 	<script>
-var resultCascadeCols = 3;
+var resultCascadeCols = 4;
 
-var imgJsonRootUrl = 'matchLabel/';
+var imgJsonRootUrl = 'json/matchLabel/';
 var queryImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/flickrLandmark/';
 var matchImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 var fuseImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/';
 
 $(document).ready(function() {
 	var url = window.location.href;
-	var iid = parseUri(url).queryKey.iid;	// not work
-	iid = url.split('iid')[1];
-	var imgJsonUrl = imgJsonRootUrl + iid + '.triple.json';
+	var iid = parseUri(url).queryKey.iid;
 
+	var imgJsonUrl = imgJsonRootUrl + iid + '.triple.json';
 	var queryImgUrl = queryImgRootUrl + iid + '.jpg';
 
 	$(document.createElement('img'))
@@ -52,20 +52,49 @@ $(document).ready(function() {
 	// retrieve img match json:
 	// d is a list of [queryImg, matchImgName, fuseImgName, text description]
 	$.getJSON(imgJsonUrl, function(d) {
-		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, matchImgRootUrl, function(item) {
-			// create and return img element
-		});
-		//resultCascade.SetItemClickFunc(function(item){
-			var popupPanel = new PopupPanel($('#popup'), d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, function(item) {
-				// create content to popup panel
-				// the layout of content from top to bottom:
-				// left: query image, right: match image
-				// fused image:
-				// text description
+		d = _.map(d, function(d, i){return [i, d]});
+		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, 
+			function(item) {
+			//return html segment of img element
 
-				// return content's root div element
-			});
-		//});
+			var id = item[0];
+			var matchImgName = item[1][0];
+			var text = item[1][3];
+			var matchImgUrl = matchImgRootUrl + matchImgName;
+			return '<img class="cascade-item" src="' + matchImgUrl + '" alt="' + text +
+				'" title="' + text + '" data-toggle="modal" data-target="#popupModal' + id + '">';
+		});
+
+		$.each(d, function(i, item){
+			var rootEle = $('#popup');
+
+			var id = item[0];
+
+			var popupPanel = new PopupPanel(rootEle, id, item[1], 
+				function(item){
+					// create content to popup panel
+					// the layout of content from top to bottom:
+					// left: query image, right: match image
+					// fused image:
+					// text description
+					// return html segment of content
+
+					var matchImgName = item[0];
+					var queryImgName = item[1];
+					var fuseImgName = item[2];
+					var text = item[3];
+
+					var queryImgUrl = queryImgRootUrl + queryImgName;
+					var matchImgUrl = matchImgRootUrl + matchImgName;
+					var fuseImgUrl = fuseImgRootUrl + fuseImgName;
+
+					return '<div class="modal-footer centered">' +
+							'<img src="' + queryImgUrl + '" class="img-query">' +
+							'<img src="' + matchImgUrl + '" class="img-matched">' +
+							'<img src="' + fuseImgUrl + '" class="img-fused">' +
+						'</div>';
+				});
+		});
 	});
 });
 	</script>

@@ -1,24 +1,12 @@
-/*
-function PageHeader(rootEle)
-{
-	// Nothing To Do
-}
-
-function TabView(rootEle)
-{
-	// Nothing To Do
-}
-*/
-
 // param is the number images shown simultaneously in carousel
-function Carousel(rootEle, d, param)
+function Carousel(rootEle, d, param, processFunc)
 {
 	///////////////////////////////////////////////
 	// privileged functions
 
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
-	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
+	// var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
 	rootId = rootEle.attr('id');
 	rootEle.append('<!-- Wrapper for slides -->' +
 				'<div class="carousel-inner" role="listbox"></div>' +
@@ -33,28 +21,24 @@ function Carousel(rootEle, d, param)
 				'</a>');
 	$.each(d, function(i, field) {
 		rootEle.children("ol").append('<li data-target="#' + rootId + '" data-slide-to="' + i + '"></li>');
-		if (typeof field == 'object') {
-			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' +
-							field[1] + '" onclick="location.href=\'match.html?iid' + field[0] + '\'"></div>');
-		} else {
-			rootEle.children("div.carousel-inner").append('<div class="item"><img src="' + imgRootUrl + field + '"></div>');
-		}
-
+		rootEle.children("div.carousel-inner").append(processFunc(field));
 	});
+	// $.each(d, processFunc);
 	rootEle.children("ol").children("li").first().addClass("active");
 	rootEle.children("div.carousel-inner").children("div").first().addClass("active");
-/*	this.SetItemClickFunc = function(clickFunc)
-	{
+
+	// this.SetItemClickFunc = function(clickFunc)
+	// {
 		// Nothing To Do
-	}
-*/
+	// }
+
 }
 
 
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, cols, param)
 {
-	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
+	var imgRootUrl = 'http://222.29.193.172:8006/lmHistoryTMMData/img/imgs/';
 	$.each(d, function(i, field) {
 		var lightSliderId = "lightSlider" + i;
 		rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
@@ -94,11 +78,6 @@ function ListView(rootEle, d)
 	$.each(d, function(i, field) {
 		rootEle.append('<a href="event.html?eid' + field[0] + '" class="list-group-item">' + field[1] + '</a>');
 	});
-/*	this.SetItemClickFunc = function(clickFunc)
-	{
-		// Nothing To Do
-	}
-*/
 }
 
 // param is {rows : int, cols: int}
@@ -134,12 +113,6 @@ function PagedTable(rootEle, d, param, processFunc)
 	$tbody.append($tr);
 	$('#tableData').append($tbody);
 	$('#tableData').page({limit: param['rows']});
-
-/*	this.SetItemClickFunc = function(clickFunc)
-	{
-		//TODO
-	}
-*/
 }
 
 // param is {height: int, width: int}
@@ -164,10 +137,10 @@ function TimeGlider(rootEle, param)
             "events":[
             ],
             "tags":{"mardigras":2,"chris":2,"arizona":2,"netscape":2,"flop":1}
-
+    
         }
     ];
-
+    
 	//TODO
 
 	///////////////////////////////////////////////d
@@ -177,17 +150,17 @@ function TimeGlider(rootEle, param)
 	function _fitin(start, end)
 	{
 		//TODO
-        var stimestamp = $.myTime.DateToUnix(start);
-        var etimestamp = $.myTime.DateToUnix(end);
+        var stimestamp = $.myTime.ZCDateToUnix(start);
+        var etimestamp = $.myTime.ZCDateToUnix(end);
         var timestamp = (stimestamp + etimestamp)/2;
         var duration = (etimestamp-stimestamp)/30;
-
+        
         data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
-        data_source[0].initial_zoom = 44;
+        data_source[0].initial_zoom = 50;
 	}
 
 	//handles the layout and content of popup panel
-	// from top to bottom:
+	// from top to bottom: 
 	// 1. show date in title
 	// 2. show text descripiton on the top
 	// 3. show one image on the left
@@ -198,58 +171,63 @@ function TimeGlider(rootEle, param)
 		//TODO
 	}
 
-	///////////////////////////////////////////////
-	// privileged functions
-
 	// get data from a json url
-	// past data will be cleaned and the view will be refreshed by the new data,
+	// past data will be cleaned and the view will be refreshed by the new data, 
 	// see if we can add some animation for such transition
 	// data is a list of [eid, imgurl, text, who list, where list, when list]
 	this.GetData = function(url)
 	{
-
+	   
         $.getJSON(url, function( data ) {
-
+            
             var starttime = 0;
             var endtime = 0;
-
+            
             //data_source = base_source;
             data_source[0].events = [];
-
+            
             $.each(data, function(index,obj){ //遍历json数据列
-
+            
                 var event = {};
-                event.id = obj.id;
-
-                event.description = obj.text;
-                if(obj.text.length > 10){
-                    event.title = obj.text.substr(0, 10)+"...";  //取前10个字符
+                event.id = obj[0];
+                
+                event.description = obj[2];
+                if(obj[2].length > 10){
+                    event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
                 }else{
-                    event.title = obj.text;
+                    event.title = obj[2].text;
                 }
-
-                event.link = obj.imgurl;
-                event.startdate = obj.when;
+                
+                event.link = obj[1];
+                event.startdate = obj[5][0];
                 event.high_threshold = 60;
                 event.importance = 50;
                 event.date_display = "ye";
                 event.icon = "circle_black.png";
-                event.image = "img/alonzo_church.jpg";
-
+                event.image = "http://222.29.193.172:8006/lmHistoryTMMData/img/imgs/"+obj[1];
+                
                 data_source[0].events.push(event);
-
-                if (index == 0)
-                    starttime = obj.when;
-                endtime = obj.when;
+                
+                if (starttime == 0 && endtime == 0){
+                    starttime = obj[5][0];
+					endtime = obj[5][0];
+				}else{
+					var nowtime = $.myTime.ZCDateToUnix(obj[5][0]);
+					if (nowtime < $.myTime.ZCDateToUnix(starttime))
+						starttime = obj[5][0];
+					if (nowtime > $.myTime.ZCDateToUnix(endtime)){
+						endtime = obj[5][0];
+					}
+				}
             });
             //alert(endtime);
             //调整设置参数
             _fitin(starttime, endtime);
-
+            
             rootEle.timeline({
-
-				"min_zoom":1,
-				"max_zoom":50,
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -258,24 +236,24 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":false,
 				"image_lane_height":100,
-				"loaded":function () {
+				"loaded":function () { 
 					// loaded callback function
 				 }
-
+		
     			}).resizable({
-    					stop:function(){
+    					stop:function(){ 
     						// $(this).data("timeline").resize();
     					}
     			});
-
-
+       
+       
        /*
             //TODO
             if (!init){
                  tg1 = rootEle.timeline({
-
-				"min_zoom":1,
-				"max_zoom":50,
+						
+				"min_zoom":1, 
+				"max_zoom":50, 
 				"timezone":"-06:00",
 				"icon_folder":"css/timeglider-1.0.3/icons/",
 				"data_source": data_source,
@@ -284,12 +262,12 @@ function TimeGlider(rootEle, param)
 				"mousewheel":"zoom", // zoom | pan | none
 				"constrain_to_data":true,
 				"image_lane_height":100,
-				"loaded":function () {
+				"loaded":function () { 
 					// loaded callback function
 				 }
-
+		
     			}).resizable({
-    					stop:function(){
+    					stop:function(){ 
     						// $(this).data("timeline").resize();
     					}
     			});
@@ -302,72 +280,97 @@ function TimeGlider(rootEle, param)
                 tg_instance.refresh();
             }
             */
-
-
-
         });
-
-
-
-
 	}
 }
 
 // processFunc(d)
-function PopupPanel(rootEle, d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
+// function PopupPanel(rootEle, d, queryImgRootUrl, matchImgRootUrl, fuseImgRootUrl, processFunc)
+// {
+// 	$.each(d, function(i, field) {
+// 		var matchImgName = field[0];
+// 		var queryImgName = field[1];
+// 		var fuseImgName = field[2];
+// 		var text = field[3];
+
+// 		var queryImgUrl = queryImgRootUrl + queryImgName;
+// 		var matchImgUrl = matchImgRootUrl + matchImgName;
+// 		var fuseImgUrl = fuseImgRootUrl + fuseImgName;
+
+// 		$modal = $('<div class="modal fade" id="popupModal' + i + '" role="dialog">' +
+// 				'<div class="modal-dialog" role="document">' +
+// 					'<div class="modal-content">' +
+// 						'<div class="modal-header">' +
+// 							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+// 							'<h4 class="modal-title">Popup panel</h4>' +
+// 						'</div>' +
+// 						'<div class="modal-footer centered">' +
+// 							'<img src="' + queryImgUrl + '" class="img-query">' +
+// 							'<img src="' + matchImgUrl + '" class="img-matched">' +
+// 							'<img src="' + fuseImgUrl + '" class="img-fused">' +
+// 						'</div></div></div></div>');
+// 		rootEle.append($modal);
+// 	});
+// }
+
+function PopupPanel(rootEle, popupId, d, processFunc)
 {
-	$.each(d, function(i, field) {
-		var queryImgUrl = queryImgRootUrl + field[0];
-		var matchImgUrl = matchImgRootUrl + field[1];
-		var fuseImgUrl = fuseImgRootUrl + field[2];
-		var text = field[3];
-		$modal = $('<div class="modal fade" id="popupModal' + i + '" role="dialog">' +
-				'<div class="modal-dialog" role="document">' +
-					'<div class="modal-content">' +
-						'<div class="modal-header">' +
-							'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-							'<h4 class="modal-title">Popup panel</h4>' +
-						'</div>' +
-						'<div class="modal-footer centered">' +
-							'<img src="' + queryImgUrl + '" class="img-query">' +
-							'<img src="' + matchImgUrl + '" class="img-matched">' +
-							'<img src="' + fuseImgUrl + '" class="img-fused">' +
-						'</div></div></div></div>');
-		rootEle.append($modal);
-	});
+	$modal = $(
+		'<div class="modal fade" id="popupModal' + popupId + '" role="dialog">' +
+			'<div class="modal-dialog" role="document">' +
+				'<div class="modal-content">' +
+					'<div class="modal-header">' +
+						'<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+						'<h4 class="modal-title">Popup panel</h4>' +
+					'</div>' + 
+					processFunc(d) + 
+				'</div></div></div>');
+	rootEle.append($modal);
 }
 
 // d is a list
 // cols is column number in layout
 // processFunc(item), item is item in list d
 // clickFunc(item), item is item in list d
-function CascadeLayout(rootEle, d, cols, matchImgRootUrl, processFunc)
+function CascadeLayout(rootEle, d, cols, processFunc)
 {
-	///////////////////////////////////////////////
-	// privileged functions
-
 	// register the clickFunc to the widget
 	// bind clickFunc to each element's click event in the widget
+	// rootEle.masonry({
+	// 	itemSelector: '.cascade-item',
+	// 	isAnimated: true,
+	// 	animationOptions: {
+	// 		duration: 400
+	// 	},
+	// 	columnWidth: function(containerWidth) {
+	// 		return containerWidth / cols;
+	// 	}
+	// });
+
 	rootEle.masonry({
 		itemSelector: '.cascade-item',
-		isAnimated: true,
-		animationOptions: {
-			duration: 400
-		},
+		// isAnimated: true,
+		// animationOptions: {
+		// 	duration: 400
+		// },
 		columnWidth: function(containerWidth) {
 			return containerWidth / cols;
 		}
 	});
 
 	$.each(d, function(i, field) {
-		var matchImgUrl = matchImgRootUrl + field[1];
-		$cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[3] +
-				'" title="' + field[3] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
-		rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
+
+		// var matchImgUrl = matchImgRootUrl + field[0];
+		// $cascadeItem = $('<img class="cascade-item" src="' + matchImgUrl + '" alt="' + field[3] +
+		// 		'" title="' + field[3] + '" data-toggle="modal" data-target="#popupModal' + i + '">');
+		// rootEle.append($cascadeItem).masonry('appended', $cascadeItem);
+
+		var cascadeItemHtml = processFunc(field);
+		rootEle.append($(cascadeItemHtml));
 	});
 
-/*	this.SetItemClickFunc = function(clickFunc)
-	{
-	};
-*/
+	rootEle.imagesLoaded().progress(function(imgLoad, image){
+		// console.log('loading');
+		rootEle.mansory('layout');
+	});
 }
