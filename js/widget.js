@@ -43,7 +43,6 @@ function Slide(rootEle, d, param, processFunc)
   $.each(d, function(i, field) {
     rootEle.children("ul").append(processFunc(field));
   });
-
   var autoplaySlider = $('#slide').lightSlider({
 	item:4,
 	easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
@@ -72,7 +71,6 @@ function Slide(rootEle, d, param, processFunc)
 	}
   });
   $('#total').text(autoplaySlider.getTotalSlideCount());
-
 }
 
 
@@ -90,10 +88,9 @@ function ExtendedCarousel(rootEle, d, cols, param)
     $('#' + lightSliderId).lightSlider({
         gallery: true,
         item: 1,
-      speed:500,
         loop:true,
         slideMargin: 0,
-        thumbItem: 9
+        thumbItem: 3
     });
   });
 
