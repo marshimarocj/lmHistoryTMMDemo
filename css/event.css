@@ -1,5 +1,5 @@
 .cascade-item {
-    width: 300px;
+    width: 250px;
     margin: 2px;
     float: left;
     cursor: pointer;
@@ -20,4 +20,9 @@
     display: block;
     height: auto;
     max-width: 100%;
+}
+
+.slide-img {
+    margin: 1px;
+    padding: 0px;
 }
