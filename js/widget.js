@@ -353,14 +353,14 @@ function CascadeLayout(rootEle, d, cols, processFunc)
   //     return containerWidth / cols;
   //   }
   // });
-
+/*
   rootEle.masonry({
     itemSelector: '.cascade-item',
     columnWidth: function(containerWidth) {
       return containerWidth / cols;
     }
   });
-
+*/
   $.each(d, function(i, field) {
 
     // var matchImgUrl = matchImgRootUrl + field[0];
@@ -376,15 +376,10 @@ function CascadeLayout(rootEle, d, cols, processFunc)
 	rootEle.imagesLoaded(function(){
 		rootEle.masonry({
 			itemSelector: '.cascade-item',
-/*			isAnimated: true,
-			animationOptions: {
-				duration: 400
-			},
-*/
 			columnWidth: function(containerWidth) {
 				return containerWidth / cols;
 			}
 		});
 	});
-
+	
 }
