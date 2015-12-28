@@ -43,8 +43,11 @@ function Slide(rootEle, d, param, processFunc)
   $.each(d, function(i, field) {
     rootEle.children("ul").append(processFunc(field));
   });
+  $.each(d, function(i, field) {
+    rootEle.children("ul").append(processFunc(field));
+  });
   var autoplaySlider = $('#slide').lightSlider({
-	item:4,
+	item: 4,
 	easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
 	auto:true,
 	loop:true,
@@ -381,5 +384,5 @@ function CascadeLayout(rootEle, d, cols, processFunc)
 			}
 		});
 	});
-	
+
 }
