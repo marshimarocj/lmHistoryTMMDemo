@@ -78,34 +78,32 @@ function Slide(rootEle, d, param, processFunc)
 function ExtendedCarousel(rootEle, d, cols, param)
 {
   $.each(d, function(i, field) {
-    var lightSliderId = "lightSlider" + i;
+    var lightSliderId = 'lightSlider' + i;
     rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
     $.each(field, function(j, img) {
       $('#' + lightSliderId).append(
       	'<li data-thumb="' + commonUrls.imgRootUrl + img +
       	'"><img src="' + commonUrls.imgRootUrl + img + '"></li>');
     });
-    $('#' + lightSliderId).lightSlider({
-        gallery: true,
-        item: 1,
-        loop:true,
-        slideMargin: 0,
-        thumbItem: 3
-    });
+
   });
 
 	rootEle.imagesLoaded(function(){
+		$.each(d, function(i, field) {
+			$('#lightSlider' + i).lightSlider({
+		        gallery: true,
+		        item: 1,
+		        loop:true,
+		        slideMargin: 0,
+		        thumbItem: 3
+		    });
+		});
 		rootEle.masonry({
 			itemSelector: '.cascade-item',
-/*			isAnimated: true,
-    animationOptions: {
-      duration: 400
-    },
-*/
-    columnWidth: function(containerWidth) {
-      return containerWidth / cols;
-    }
-  });
+		    columnWidth: function(containerWidth) {
+		      return containerWidth / cols;
+		    }
+		});
 	});
 }
 
