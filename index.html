@@ -14,22 +14,11 @@
 <body>
   <!-- this is the banner of our demo-->
   <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">
-          <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-          Image Profiling for History Events
-        </a>
-      </div>
+  <div class="navbar navbar-fixed-top">
+    <div class="imglogo">
+        <a href="index.html"><img src="img/logo.png"/></a>
     </div>
-  </nav>
+  </div>
   <!-- h1 id="pageHeader">Image Profiling for History Events</h1 -->
   <!-- use a tab widget -->
   <!-- Nav tab -->
@@ -37,10 +26,10 @@
   <div class="container theme-showcase" role="main">
     <ul class="nav nav-tabs" id="tabView">
       <li role="presentation" class="active">
-        <a href="#imgs" aria-controls="imgs" role="tab" data-toggle="tab" id="imgs-tab">image</a>
+        <a href="#imgs" aria-controls="imgs" role="tab" data-toggle="tab" id="imgs-tab">Location</a>
       </li>
       <li role="presentation">
-        <a href="#events" aria-controls="events" role="tab" data-toggle="tab" id="events-tab">event</a>
+        <a href="#events" aria-controls="events" role="tab" data-toggle="tab" id="events-tab">content</a>
       </li>
       <li role="presentation">
         <a href="#knowledge" aria-controls="knowledge" role="tab" data-toggle="tab" id="knowledge-tab">knowledge</a>
@@ -52,7 +41,7 @@
 
       <!-- imgs -->
       <div role="tabpanel" class="tab-pane fade in active" id="imgs">
-        <div class="container">
+        <div class="container imgcontainer">
           <!-- this section shows a list of selected images, -->
           <div class="page-header">
             <h2>What happened here in the past? <!-- small>Subtext</small --></h2>
@@ -82,14 +71,22 @@
         <div class="container" >
           <!-- this section shows all the events from different views on the time line-->
           <div class="page-header">
-            <h2>Explore our history event knowledge base automatically extracted from images!</h2>
+            <h2>Explore the history event knowledge base!</h2>
+            <span>Note: fecets are automatically extracted from images</span>
           </div>
           <div class="row" id="timeview">
           <!-- this is a group of controls to select which subset of events to view on the time line -->
             <div class="list-group col-lg-4 col-md-4 col-xs-4">
-              <a class="list-group-item" id="warList">Browse by Period</a>
-              <a class="list-group-item" id="sceneList">Browse by Scene</a>
-              <a class="list-group-item" id="objectList">Browse by Object</a>
+              <span>Browse by:</span>
+              <div class="show-group-item">
+                <a id="warList">Period</a>
+              </div>
+              <div class="show-group-item">
+                <a id="sceneList">Scene</a>
+              </div>
+              <div class="show-group-item">
+                <a id="objectList">Object</a>
+              </div>
             </div>
             <div class="col-lg-6 col-md-6 col-xs-6" id="pageTable"></div>
             <!-- this is a timeglider widget for viewing events on time line -->
@@ -97,7 +94,7 @@
           </div>
         </div>
       </div>
-      <div id="timeglider" style="height:550px; "></div>
+      <div id="timeglider" style="height:0px; "></div>
 
     </div>
   </div>
@@ -165,13 +162,15 @@ $(document).ready(function() {
   $.getJSON(imgJsonUrl, function(d) {
 
     imgData = d;
-    var imgCarousel = new Carousel($('#imgCarousel'), d, {}, 
+    var imgCarousel = new Carousel($('#imgCarousel'), d, {},
       function(item) {
 
         var imgUrl = commonUrls.imgQueryRootUrl + item[1];
         var imgId = item[0];
-        return '<div class="item"><img src="' + imgUrl + 
-          '" onclick="location.href=\'match.html?iid=' + imgId + '\'"></div>';
+        var imgName = "PLACE";
+        return '<div class="item"><img src="' + imgUrl +
+          '" onclick="location.href=\'match.html?iid=' + imgId + '\'">' +
+          '<div class="carousel-caption"><h3>' + imgName + '</h3></div></div>';
       });
   });
 
@@ -184,13 +183,14 @@ $(document).ready(function() {
       eventData = d;
 
       // d is a list of [eid, text]
-      var eventList = new ListView($('#eventList'), d, 
+      var eventList = new ListView($('#eventList'), d,
         function(item) {
 
           //create and return html segment of text
           var eid = item[0];
           var txt = item[1]
-          return '<a href="event.html?eid=' + eid + '" class="list-group-item">' + txt + '</a>';
+          //return '<a href="event.html?eid=' + eid + '" class="list-group-item">' + txt + '</a>';
+          return '<div class="list-group-item"><a href="event.html?eid=' + eid + '" class="list-link" target="_blank">&nbsp;</a>' + txt + '</div>';
         });
     });
   });
@@ -213,7 +213,7 @@ $(document).ready(function() {
           // get data to refresh paged table
 
           browseData[i] = d;
-          var pagedTable = new PagedTable($('#pageTable'), d, param, 
+          var pagedTable = new PagedTable($('#pageTable'), d, param,
             genPagedTableProcessFunc(i));
         });// get json
       }
@@ -223,6 +223,18 @@ $(document).ready(function() {
   // initialize timeGlider in knowledge tab
   var timeGlider = new TimeGlider($('#timeglider'));
   timeGlider.GetData(timeJsonUrl);
+
+  // control the display for timeGlider
+  $('#imgs-tab').click(function(){
+    $('#timeglider').attr("style", "display:none; height:0px");
+  })
+  $('#events-tab').click(function(){
+    $('#timeglider').attr("style", "display:none; height:0px");
+  })
+  $('#knowledge-tab').click(function(){
+    $('#timeglider').attr("style", "display:block; height:550px");
+  })
+
 });
   </script>
 </body>

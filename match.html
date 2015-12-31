@@ -8,16 +8,24 @@
   <link rel="stylesheet" href="css/match.css">
 </head>
 <body>
-  <ol class="breadcrumb">
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-fixed-top">
+    <div class="imglogo">
+        <a href="index.html"><img src="img/logo.png"/></a>
+    </div>
+  </div>
+  <div class="container theme-showcase" role="main">
+    <ul class="breadcrumb">
       <li><a href="index.html">Home</a></li>
       <li class="active">Match</li>
-  </ol>
-  <!-- this section shows the query image -->
-  <div id="query"></div>
-  <!-- this section shows the matched images-->
-  <div id="result"></div>
-  <div id="popup"></div>
-
+    </ul>
+    <!-- this section shows the query image -->
+    <div id="query"></div>
+    <!-- this section shows the matched images-->
+    <div class="result-info">Matched history photos:</div>
+    <div id="result"></div>
+    <div id="popup"></div>
+  </div>
   <!-- common -->
   <script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
   <script src="js/underscore-min.js"></script>
@@ -58,8 +66,10 @@ $(document).ready(function() {
       var matchImgName = item[1][0];
       var text = item[1][3];
       var matchImgUrl = commonUrls.imgMatchRootUrl + matchImgName;
-      return '<img class="cascade-item" src="' + matchImgUrl + '" alt="' + text +
-        '" title="' + text + '" data-toggle="modal" data-target="#popupModal' + id + '">';
+      return '<a data-toggle="modal" data-target="#popupModal' + id + '"><div class="cascade-item">'+
+               '<div><img class="cascade-img" src="' + matchImgUrl + '"/></div>'+
+               '<div class="cascade-text">'+text+'</div></a>'+
+             '</div>';
     });
 
     $.each(d, function(i, item){
@@ -84,11 +94,29 @@ $(document).ready(function() {
           var queryImgUrl = commonUrls.imgQueryRootUrl + queryImgName;
           var matchImgUrl = commonUrls.imgMatchRootUrl + matchImgName;
           var fuseImgUrl = commonUrls.imgFuseRootUrl + fuseImgName;
-
+		  
           return '<div class="modal-footer centered">' +
-              '<img src="' + queryImgUrl + '" class="img-query">' +
-              '<img src="' + matchImgUrl + '" class="img-matched">' +
-              '<img src="' + fuseImgUrl + '" class="img-fused">' +
+              '<div class="topContainer">' +
+                '<div class="photo_swap"><div class="query-photo">' +
+                  '<div class="photo-info">query photo</div>'+
+                  '<div>'+
+                    '<img src="' + queryImgUrl + '" class="img-query" />' +
+                  '</div>'+
+                '</div>'+
+                '<div class="history-photo">' +
+                  '<div class="photo-info">history photo</div>'+
+                  '<div>'+
+                    '<img src="' + matchImgUrl + '" class="img-matched">' +
+                  '</div>'+
+                '</div>'+
+              '</div></div>'+
+              '<div class="event-info">Event: ' + text +'</div>'+
+              '<div>' +
+                '<div class="fusing-info">fusing</div>'+
+                '<div>'+
+                  '<img src="' + fuseImgUrl + '" class="img-fused">' +
+                '</div>'+                
+              '</div>'+
             '</div>';
         });
     });

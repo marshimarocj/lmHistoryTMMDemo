@@ -1,9 +1,9 @@
-var commonUrls = 
+var commonUrls =
 {
 	imgRootUrl: 'http://222.29.193.172:8006/lmHistoryTMMSuppData/demo/imgs/', //TMM data
 	imgMatchRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/img/', //MM data
-	imgQueryRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/flickrLandmark/', 
-	imgFuseRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/', 
+	imgQueryRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/flickrLandmark/',
+	imgFuseRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/',
 };
 
 // param is the number images shown simultaneously in carousel
@@ -36,40 +36,81 @@ function Carousel(rootEle, d, param, processFunc)
   rootEle.children("div.carousel-inner").children("div").first().addClass("active");
 }
 
+function Slide(rootEle, d, param, processFunc)
+{
+  rootId = rootEle.attr('id');
+  rootEle.append('<ul id="slide"></ul>');
+  $.each(d, function(i, field) {
+    rootEle.children("ul").append(processFunc(field));
+  });
+  $.each(d, function(i, field) {
+    rootEle.children("ul").append(processFunc(field));
+  });
+  var autoplaySlider = $('#slide').lightSlider({
+	item: 4,
+	easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+	auto:true,
+	loop:true,
+	pauseOnHover: true,
+	responsive : [
+		   {
+			   breakpoint:800,
+			   settings: {
+				   item:3,
+				   slideMove:1,
+				   slideMargin:6,
+				 }
+		   },
+		   {
+			   breakpoint:480,
+			   settings: {
+				   item:2,
+				   slideMove:1
+				 }
+		   }
+	   ],
+	onBeforeSlide: function (el) {
+	  $('#current').text(el.getCurrentSlideCount());
+	}
+  });
+  $('#total').text(autoplaySlider.getTotalSlideCount());
+}
+
 
 // param is the number images shown simultaneously in the bottom carousel
 function ExtendedCarousel(rootEle, d, cols, param)
 {
   $.each(d, function(i, field) {
-    var lightSliderId = "lightSlider" + i;
-    rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
+    var lightSliderId = 'lightSlider' + i;
+    rootEle.append('<div class="cascade-item"><h3></h3><ul id=' + lightSliderId + '></ul></div>');
     $.each(field, function(j, img) {
-      $('#' + lightSliderId).append(
-      	'<li data-thumb="' + commonUrls.imgRootUrl + img + 
-      	'"><img src="' + commonUrls.imgRootUrl + img + '"></li>');
+	  if ( !j && img.indexOf('jpg') == -1 ) {
+		$('#' + lightSliderId).prev().text(img);
+	  } else {
+		$('#' + lightSliderId).append(
+          '<li data-thumb="' + commonUrls.imgRootUrl + img +
+          '"><img src="' + commonUrls.imgRootUrl + img + '"></li>');
+	  }
     });
-    $('#' + lightSliderId).lightSlider({
-        gallery: true,
-        item: 1,
-      speed:500,
-        loop:true,
-        slideMargin: 0,
-        thumbItem: 9
-    });
+
   });
 
 	rootEle.imagesLoaded(function(){
+		$.each(d, function(i, field) {
+			$('#lightSlider' + i).lightSlider({
+		        gallery: true,
+		        item: 1,
+		        loop:true,
+		        slideMargin: 0,
+		        thumbItem: 3
+		    });
+		});
 		rootEle.masonry({
 			itemSelector: '.cascade-item',
-/*			isAnimated: true,
-    animationOptions: {
-      duration: 400
-    },
-*/
-    columnWidth: function(containerWidth) {
-      return containerWidth / cols;
-    }
-  });
+		    columnWidth: function(containerWidth) {
+		      return containerWidth / cols;
+		    }
+		});
 	});
 }
 
@@ -118,15 +159,17 @@ function PagedTable(rootEle, d, param, clickFunc)
     }
     $tbody.append($tr);
   }
-  $tr = $('<tr></tr>');
-  for (var j = 0; j < cols; j ++) {
-    if (d[i * cols + j] == undefined) {
-      $tr.append('<td></td>');
-    } else {
-      $tr.append('<td>' + d[i * cols + j][1] + '</td>');
+  if ( d[i * cols] != undefined) {
+    $tr = $('<tr></tr>');
+    for (var j = 0; j < cols; j ++) {
+      if (d[i * cols + j] == undefined) {
+        $tr.append('<td></td>');
+      } else {
+        $tr.append('<td>' + d[i * cols + j][1] + '</td>');
+      }
     }
+    $tbody.append($tr);
   }
-  $tbody.append($tr);
   $('#tableData').append($tbody);
   $('#tableData').page({limit: param['rows']});
 }
@@ -164,14 +207,33 @@ function TimeGlider(rootEle, param)
     var stimestamp = $.myTime.ZCDateToUnix(start);
     var etimestamp = $.myTime.ZCDateToUnix(end);
     var timestamp = (stimestamp + etimestamp)/2;
-    var duration = (etimestamp-stimestamp)/30;
+    var duration = (etimestamp-stimestamp) / (3600*24);
     
+    zoom = 50;
+    if (duration < 2000)
+        zoom = 36;
+    else if (duration < 4000)
+        zoom = 38;
+    else if (duration < 6000)
+        zoom = 40;
+    else if (duration < 8000)
+        zoom = 42;
+    else if (duration < 12000)
+        zoom = 44;
+    else if (duration < 17000)
+        zoom = 46;
+    else if (duration < 26000)
+        zoom = 47;
+    else if (duration < 40000)
+        zoom = 48;
+        
+
     data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
-    data_source[0].initial_zoom = 50;
+    data_source[0].initial_zoom = zoom;
   }
 
   //handles the layout and content of popup panel
-  // from top to bottom: 
+  // from top to bottom:
   // 1. show date in title
   // 2. show text descripiton on the top
   // 3. show one image on the left
@@ -181,14 +243,21 @@ function TimeGlider(rootEle, param)
   {
   	var event = {};
 		event.id = obj[0];
-        
+
     event.description = obj[2];
-    if(obj[2].length > 10){
-        event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
+    
+    var len = obj.length;
+    if (len > 6){
+        event.title = obj[6];
     }else{
-        event.title = obj[2].text;
+        if(obj[2].length > 10){
+            event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
+        }else{
+            event.title = obj[2].text;
+        }
     }
     
+
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];
     event.high_threshold = 60;
@@ -201,23 +270,23 @@ function TimeGlider(rootEle, param)
   }
 
   // get data from a json url
-  // past data will be cleaned and the view will be refreshed by the new data, 
+  // past data will be cleaned and the view will be refreshed by the new data,
   // see if we can add some animation for such transition
   // data is a list of [eid, imgurl, text, who list, where list, when list]
   this.GetData = function(url)
   {
     $.getJSON(url, function( data ) {
-        
+
       var starttime = 0;
       var endtime = 0;
-      
+
       data_source[0].events = [];
-      
+
       $.each(data, function(index,obj){ //遍历json数据列
 
         var event = _prepareEventStruct(obj)
         data_source[0].events.push(event);
-        
+
         if (starttime == 0 && endtime == 0){
           starttime = obj[5][0];
           endtime = obj[5][0];
@@ -233,10 +302,10 @@ function TimeGlider(rootEle, param)
 
       //调整设置参数
       _fitin(starttime, endtime);
-        
+
       rootEle.timeline({
-        "min_zoom":1, 
-        "max_zoom":50, 
+        "min_zoom":1,
+        "max_zoom":50,
         "timezone":"-06:00",
         "icon_folder":"css/timeglider-1.0.3/icons/",
         "data_source": data_source,
@@ -245,11 +314,11 @@ function TimeGlider(rootEle, param)
         "mousewheel":"zoom", // zoom | pan | none
         "constrain_to_data":false,
         "image_lane_height":100,
-        "loaded":function () { 
+        "loaded":function () {
           // loaded callback function
         }
       }).resizable({
-        stop:function(){ 
+        stop:function(){
           // $(this).data("timeline").resize();
         }
       });
@@ -295,8 +364,8 @@ function PopupPanel(rootEle, popupId, d, processFunc)
           '<div class="modal-header">' +
             '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
             '<h4 class="modal-title">Popup panel</h4>' +
-          '</div>' + 
-          processFunc(d) + 
+          '</div>' +
+          processFunc(d) +
         '</div></div></div>');
   rootEle.append($modal);
 }
@@ -319,14 +388,14 @@ function CascadeLayout(rootEle, d, cols, processFunc)
   //     return containerWidth / cols;
   //   }
   // });
-
+/*
   rootEle.masonry({
     itemSelector: '.cascade-item',
     columnWidth: function(containerWidth) {
       return containerWidth / cols;
     }
   });
-
+*/
   $.each(d, function(i, field) {
 
     // var matchImgUrl = matchImgRootUrl + field[0];
@@ -342,11 +411,6 @@ function CascadeLayout(rootEle, d, cols, processFunc)
 	rootEle.imagesLoaded(function(){
 		rootEle.masonry({
 			itemSelector: '.cascade-item',
-/*			isAnimated: true,
-			animationOptions: {
-				duration: 400
-			},
-*/
 			columnWidth: function(containerWidth) {
 				return containerWidth / cols;
 			}

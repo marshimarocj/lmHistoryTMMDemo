@@ -9,27 +9,30 @@
   <link rel="stylesheet" href="css/event.css">
 </head>
 <body>
-  <ol class="breadcrumb">
-    <li><a href="index.html">Home</a></li>
-    <li class="active">Event</li>
-  </ol>
-  <!-- this section shows the text description of the event -->
-  <div id="text"><h1></h1></div>
-  <!-- this section shows the famous iconic image. Its a Carousel Widget-->
-  <div class="container">
-    <div class="page-header">
-      <h2>Extremely Famous Photos</h2>
-    </div>
-    <!-- use a carousel widget -->
-    <div id="iconic" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators"></ol>
+  <div class="navbar navbar-fixed-top">
+    <div class="imglogo">
+        <a href="index.html"><img src="img/logo.png"/></a>
     </div>
   </div>
-  <!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
-  <h1></h1>
-  <div id="facet"></div>
-
+  <div class="container theme-showcase" role="main">
+    <ul class="breadcrumb">
+      <li><a href="index.html">Home</a></li>
+      <li class="active">Content</li>
+    </ul>
+    <!-- this section shows the text description of the event -->
+    <div id="text"><h1></h1></div>
+    <!-- this section shows the famous iconic image. Its a Carousel Widget-->
+    <div class="container">
+      <div class="page-header">
+        Famous Photos
+      </div>
+      <!-- use a carousel widget -->
+      <div id="iconic"></div>
+    </div>
+    <!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
+    <div class="facet-info">Content Facets</div>
+    <div id="facet" ></div>
+  </div>
   <!-- common -->
   <script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
   <script src="js/underscore-min.js"></script>
@@ -43,7 +46,7 @@
 
   <script>
 // var iconicCarouselWidth = 1;
-var facetCascadeCols = 3;
+var facetCascadeCols = 4;
 var detailCarouselWidth = 4;
 
 var eventJsonRootUrl = 'json/events/';
@@ -66,11 +69,11 @@ $(document).ready(function() {
     $('#text').children('h1').html(d['text']);
 
     //process iconic image display
-    var iconicCarousel = new Carousel($('#iconic'), d['iconic'], {}, 
+    var iconicCarousel = new Slide($('#iconic'), d['iconic'], {},
       function(item){
 
         var imgUrl = commonUrls.imgRootUrl + item;
-        return '<div class="item"><img src="' + imgUrl + '"></div>';
+        return '<li class="slide-img"><img src="' + imgUrl + '"></li>';
       });
 
     //process facet display
