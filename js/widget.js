@@ -82,7 +82,7 @@ function ExtendedCarousel(rootEle, d, cols, param)
 {
   $.each(d, function(i, field) {
     var lightSliderId = 'lightSlider' + i;
-    rootEle.append('<div class="cascade-item"><h3></h3><ul id=' + lightSliderId + '></ul></div>');
+    rootEle.append('<div class="cascade-item"><h3 align="center"></h3><ul id=' + lightSliderId + '></ul></div>');
     $.each(field, function(j, img) {
 	  if ( !j && img.indexOf('jpg') == -1 ) {
 		$('#' + lightSliderId).prev().text(img);
