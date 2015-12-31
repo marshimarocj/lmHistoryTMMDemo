@@ -1,6 +1,7 @@
 .cascade-item {
     width: 250px;
     margin: 2px;
+    margin-top:50px;
     float: left;
     cursor: pointer;
 }
@@ -80,10 +81,21 @@ a:hover{
     font-size: medium;
     margin-left:30px;
     color: #262626;
+    font-family: Georgia;
 }
 
 .page-header{
     text-align: center;
-    font-size: medium;
+    font-size: 24px;
     border-bottom: 0px;
+    font-weight: bold;
 }
+
+.facet-info{
+    margin: 30px 0px 0px 0px;
+    font-size: 24px;
+    border-bottom: 0px;
+    font-weight: bold;
+}
+
+

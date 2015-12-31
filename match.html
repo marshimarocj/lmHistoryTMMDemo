@@ -94,10 +94,10 @@ $(document).ready(function() {
           var queryImgUrl = commonUrls.imgQueryRootUrl + queryImgName;
           var matchImgUrl = commonUrls.imgMatchRootUrl + matchImgName;
           var fuseImgUrl = commonUrls.imgFuseRootUrl + fuseImgName;
-
+		  
           return '<div class="modal-footer centered">' +
-              '<div>' +
-                '<div class="query-photo">' +
+              '<div class="topContainer">' +
+                '<div class="photo_swap"><div class="query-photo">' +
                   '<div class="photo-info">query photo</div>'+
                   '<div>'+
                     '<img src="' + queryImgUrl + '" class="img-query" />' +
@@ -109,7 +109,7 @@ $(document).ready(function() {
                     '<img src="' + matchImgUrl + '" class="img-matched">' +
                   '</div>'+
                 '</div>'+
-              '</div>'+
+              '</div></div>'+
               '<div class="event-info">Event: ' + text +'</div>'+
               '<div>' +
                 '<div class="fusing-info">fusing</div>'+

@@ -201,10 +201,29 @@ function TimeGlider(rootEle, param)
     var stimestamp = $.myTime.ZCDateToUnix(start);
     var etimestamp = $.myTime.ZCDateToUnix(end);
     var timestamp = (stimestamp + etimestamp)/2;
-    var duration = (etimestamp-stimestamp)/30;
+    var duration = (etimestamp-stimestamp) / (3600*24);
+    
+    zoom = 50;
+    if (duration < 2000)
+        zoom = 36;
+    else if (duration < 4000)
+        zoom = 38;
+    else if (duration < 6000)
+        zoom = 40;
+    else if (duration < 8000)
+        zoom = 42;
+    else if (duration < 12000)
+        zoom = 44;
+    else if (duration < 17000)
+        zoom = 46;
+    else if (duration < 26000)
+        zoom = 47;
+    else if (duration < 40000)
+        zoom = 48;
+        
 
     data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
-    data_source[0].initial_zoom = 50;
+    data_source[0].initial_zoom = zoom;
   }
 
   //handles the layout and content of popup panel
@@ -220,11 +239,18 @@ function TimeGlider(rootEle, param)
 		event.id = obj[0];
 
     event.description = obj[2];
-    if(obj[2].length > 10){
-        event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
+    
+    var len = obj.length;
+    if (len > 6){
+        event.title = obj[6];
     }else{
-        event.title = obj[2].text;
+        if(obj[2].length > 10){
+            event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
+        }else{
+            event.title = obj[2].text;
+        }
     }
+    
 
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];

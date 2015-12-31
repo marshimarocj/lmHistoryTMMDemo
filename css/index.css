@@ -58,8 +58,8 @@ a:hover{
 
 .page-header h2{
     font-weight: bold;
-    font-style:italic;
-    font-family: Britannic Bold;
+    font-style: italic;
+    font-family: Helvetica;
 }
 
 .page-header span{
@@ -95,6 +95,10 @@ a:hover{
     background-image: url("../img/link_hover.jpg");
 }
 
+#eventList .list-group-item{
+    font-family: Georgia;
+}
+
 #timeview .list-group{
     margin-left:15px;
 	box-shadow: none;
@@ -119,4 +123,14 @@ a:hover{
 .list-group .show-group-item a:hover{
     color: #4F8EBD;
     
+}
+
+/*timeglider*/
+
+#timeglider .jspPane p{
+    font-family: Georgia;
+}
+
+#timeglider .tg-modal h4{
+    font-family: Georgia;
 }
