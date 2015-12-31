@@ -77,7 +77,7 @@
           <div class="row" id="timeview">
           <!-- this is a group of controls to select which subset of events to view on the time line -->
             <div class="list-group col-lg-4 col-md-4 col-xs-4">
-              <span>Browse by:</span>  
+              <span>Browse by:</span>
               <div class="show-group-item">
                 <a id="warList">Period</a>
               </div>
@@ -162,13 +162,15 @@ $(document).ready(function() {
   $.getJSON(imgJsonUrl, function(d) {
 
     imgData = d;
-    var imgCarousel = new Carousel($('#imgCarousel'), d, {}, 
+    var imgCarousel = new Carousel($('#imgCarousel'), d, {},
       function(item) {
 
         var imgUrl = commonUrls.imgQueryRootUrl + item[1];
         var imgId = item[0];
-        return '<div class="item"><img src="' + imgUrl + 
-          '" onclick="location.href=\'match.html?iid=' + imgId + '\'"></div>';
+        var imgName = "PLACE";
+        return '<div class="item"><img src="' + imgUrl +
+          '" onclick="location.href=\'match.html?iid=' + imgId + '\'">' +
+          '<div class="carousel-caption"><h3>' + imgName + '</h3></div></div>';
       });
   });
 
@@ -181,7 +183,7 @@ $(document).ready(function() {
       eventData = d;
 
       // d is a list of [eid, text]
-      var eventList = new ListView($('#eventList'), d, 
+      var eventList = new ListView($('#eventList'), d,
         function(item) {
 
           //create and return html segment of text
@@ -211,7 +213,7 @@ $(document).ready(function() {
           // get data to refresh paged table
 
           browseData[i] = d;
-          var pagedTable = new PagedTable($('#pageTable'), d, param, 
+          var pagedTable = new PagedTable($('#pageTable'), d, param,
             genPagedTableProcessFunc(i));
         });// get json
       }
@@ -221,7 +223,7 @@ $(document).ready(function() {
   // initialize timeGlider in knowledge tab
   var timeGlider = new TimeGlider($('#timeglider'));
   timeGlider.GetData(timeJsonUrl);
-  
+
   // control the display for timeGlider
   $('#imgs-tab').click(function(){
     $('#timeglider').attr("style", "display:none; height:0px");
@@ -232,7 +234,7 @@ $(document).ready(function() {
   $('#knowledge-tab').click(function(){
     $('#timeglider').attr("style", "display:block; height:550px");
   })
-  
+
 });
   </script>
 </body>
