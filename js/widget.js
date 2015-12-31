@@ -34,6 +34,17 @@ function Carousel(rootEle, d, param, processFunc)
   // $.each(d, processFunc);
   rootEle.children("ol").children("li").first().addClass("active");
   rootEle.children("div.carousel-inner").children("div").first().addClass("active");
+  jQuery(function ($) {
+    $('.carousel').carousel();
+    var caption = $('div.item:nth-child(1) .carousel-caption');
+    $('.new-caption-area').html(caption.html());
+    caption.css('display', 'none');
+    $(".carousel").on('slide.bs.carousel', function (evt) {
+        var caption = $('div.item:nth-child(' + ($(evt.relatedTarget).index() + 1) + ') .carousel-caption');
+        $('.new-caption-area').html(caption.html());
+        caption.css('display', 'none');
+    });
+});
 }
 
 function Slide(rootEle, d, param, processFunc)
@@ -208,7 +219,7 @@ function TimeGlider(rootEle, param)
     var etimestamp = $.myTime.ZCDateToUnix(end);
     var timestamp = (stimestamp + etimestamp)/2;
     var duration = (etimestamp-stimestamp) / (3600*24);
-    
+
     zoom = 50;
     if (duration < 2000)
         zoom = 36;
@@ -226,7 +237,7 @@ function TimeGlider(rootEle, param)
         zoom = 47;
     else if (duration < 40000)
         zoom = 48;
-        
+
 
     data_source[0].focus_date = $.myTime.UnixToDate(timestamp, true, 8);
     data_source[0].initial_zoom = zoom;
@@ -245,7 +256,7 @@ function TimeGlider(rootEle, param)
 		event.id = obj[0];
 
     event.description = obj[2];
-    
+
     var len = obj.length;
     if (len > 6){
         event.title = obj[6];
@@ -256,7 +267,7 @@ function TimeGlider(rootEle, param)
             event.title = obj[2].text;
         }
     }
-    
+
 
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];
