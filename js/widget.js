@@ -82,11 +82,15 @@ function ExtendedCarousel(rootEle, d, cols, param)
 {
   $.each(d, function(i, field) {
     var lightSliderId = 'lightSlider' + i;
-    rootEle.append('<div class="cascade-item"><ul id=' + lightSliderId + '></ul></div>');
+    rootEle.append('<div class="cascade-item"><h3></h3><ul id=' + lightSliderId + '></ul></div>');
     $.each(field, function(j, img) {
-      $('#' + lightSliderId).append(
-      	'<li data-thumb="' + commonUrls.imgRootUrl + img +
-      	'"><img src="' + commonUrls.imgRootUrl + img + '"></li>');
+	  if ( !j && img.indexOf('jpg') == -1 ) {
+		$('#' + lightSliderId).prev().text(img);
+	  } else {
+		$('#' + lightSliderId).append(
+          '<li data-thumb="' + commonUrls.imgRootUrl + img +
+          '"><img src="' + commonUrls.imgRootUrl + img + '"></li>');
+	  }
     });
 
   });
@@ -155,15 +159,17 @@ function PagedTable(rootEle, d, param, clickFunc)
     }
     $tbody.append($tr);
   }
-  $tr = $('<tr></tr>');
-  for (var j = 0; j < cols; j ++) {
-    if (d[i * cols + j] == undefined) {
-      $tr.append('<td></td>');
-    } else {
-      $tr.append('<td>' + d[i * cols + j][1] + '</td>');
+  if ( d[i * cols] != undefined) {
+    $tr = $('<tr></tr>');
+    for (var j = 0; j < cols; j ++) {
+      if (d[i * cols + j] == undefined) {
+        $tr.append('<td></td>');
+      } else {
+        $tr.append('<td>' + d[i * cols + j][1] + '</td>');
+      }
     }
+    $tbody.append($tr);
   }
-  $tbody.append($tr);
   $('#tableData').append($tbody);
   $('#tableData').page({limit: param['rows']});
 }
