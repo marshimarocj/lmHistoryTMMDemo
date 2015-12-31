@@ -1,102 +1,99 @@
 <html>
 <head>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 
-	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap-3.3.6/bootstrap-theme.min.css">
 
-	<link rel="stylesheet" href="css/match.css">
+  <link rel="stylesheet" href="css/match.css">
 </head>
 <body>
-	<ol class="breadcrumb">
-  		<li><a href="index.html">Home</a></li>
-  		<li class="active">Match</li>
-	</ol>
-	<!-- this section shows the query image -->
-	<div id="query"></div>
-	<!-- this section shows the matched images-->
-	<div id="result"></div>
-	<div id="popup"></div>
+  <ol class="breadcrumb">
+      <li><a href="index.html">Home</a></li>
+      <li class="active">Match</li>
+  </ol>
+  <!-- this section shows the query image -->
+  <div id="query"></div>
+  <!-- this section shows the matched images-->
+  <div id="result"></div>
+  <div id="popup"></div>
 
-	<!-- common -->
-	<script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
-	<script src="js/underscore-min.js"></script>
-	<script src="js/parseUri.js"></script>
-	<script src="js/widget.js"></script>
-	<script src="js/jquery.masonry.min.js"></script>
-	<script src="js/imagesloaded.pkgd.min.js"></script>
-	<!-- bootstrap -->
-	<script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
-	<!-- timeglider -->
+  <!-- common -->
+  <script src="js/timeglider-1.0.3/jquery-1.9.1.min.js"></script>
+  <script src="js/underscore-min.js"></script>
+  <script src="js/parseUri.js"></script>
+  <script src="js/widget.js"></script>
+  <script src="js/jquery.masonry.min.js"></script>
+  <script src="js/imagesloaded.pkgd.min.js"></script>
+  <!-- bootstrap -->
+  <script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
+  <!-- timeglider -->
 
-	<script>
+  <script>
 var resultCascadeCols = 3;
 
 var imgJsonRootUrl = 'json/matchLabel/';
-var queryImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/flickrLandmark/';
-var matchImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/';
-var fuseImgRootUrl = 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/';
 
 $(document).ready(function() {
-	var url = window.location.href;
-	var iid = parseUri(url).queryKey.iid;
+  var url = window.location.href;
+  var iid = parseUri(url).queryKey.iid;
 
-	var imgJsonUrl = imgJsonRootUrl + iid + '.triple.json';
-	var queryImgUrl = queryImgRootUrl + iid + '.jpg';
+  var imgJsonUrl = imgJsonRootUrl + iid + '.triple.json';
+  var queryImgUrl = commonUrls.imgQueryRootUrl + iid + '.jpg';
 
-	$(document.createElement('img'))
-		.attr('src', queryImgUrl)
-		.attr('height', '128px')
-		.appendTo($('#query'));
+  $(document.createElement('img'))
+    .attr('src', queryImgUrl)
+    .attr('height', '128px')
+    .appendTo($('#query'));
 
-	// retrieve img match json:
-	// d is a list of [queryImg, matchImgName, fuseImgName, text description]
-	$.getJSON(imgJsonUrl, function(d) {
-		d = _.map(d, function(d, i){return [i, d]});
-		var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, 
-			function(item) {
-			//return html segment of img element
+  // retrieve img match json:
+  // d is a list of [queryImg, matchImgName, fuseImgName, text description]
+  $.getJSON(imgJsonUrl, function(d) {
+    d = _.map(d, function(d, i){return [i, d]});
+    var resultCascade = new CascadeLayout($('#result'), d, resultCascadeCols, 
+      function(item) {
+      //return html segment of img element
 
-			var id = item[0];
-			var matchImgName = item[1][0];
-			var text = item[1][3];
-			var matchImgUrl = matchImgRootUrl + matchImgName;
-			return '<img class="cascade-item" src="' + matchImgUrl + '" alt="' + text +
-				'" title="' + text + '" data-toggle="modal" data-target="#popupModal' + id + '">';
-		});
+      var id = item[0];
+      var matchImgName = item[1][0];
+      var text = item[1][3];
+      var matchImgUrl = commonUrls.imgMatchRootUrl + matchImgName;
+      return '<img class="cascade-item" src="' + matchImgUrl + '" alt="' + text +
+        '" title="' + text + '" data-toggle="modal" data-target="#popupModal' + id + '">';
+    });
 
-		$.each(d, function(i, item){
-			var rootEle = $('#popup');
+    $.each(d, function(i, item){
+      var rootEle = $('#popup');
 
-			var id = item[0];
+      var id = item[0];
 
-			var popupPanel = new PopupPanel(rootEle, id, item[1], 
-				function(item){
-					// create content to popup panel
-					// the layout of content from top to bottom:
-					// left: query image, right: match image
-					// fused image:
-					// text description
-					// return html segment of content
+      var popupPanel = new PopupPanel(rootEle, id, item[1], 
+        function(item){
+          // return html segment of popup panel content
+          // the layout of content from top to bottom:
+          // left: query image, right: match image
+          // fused image:
+          // text description
+          // return html segment of content
 
-					var matchImgName = item[0];
-					var queryImgName = item[1];
-					var fuseImgName = item[2];
-					var text = item[3];
+          var matchImgName = item[0];
+          var queryImgName = item[1];
+          var fuseImgName = item[2];
+          var text = item[3];
 
-					var queryImgUrl = queryImgRootUrl + queryImgName;
-					var matchImgUrl = matchImgRootUrl + matchImgName;
-					var fuseImgUrl = fuseImgRootUrl + fuseImgName;
+          var queryImgUrl = commonUrls.imgQueryRootUrl + queryImgName;
+          var matchImgUrl = commonUrls.imgMatchRootUrl + matchImgName;
+          var fuseImgUrl = commonUrls.imgFuseRootUrl + fuseImgName;
 
-					return '<div class="modal-footer centered">' +
-							'<img src="' + queryImgUrl + '" class="img-query">' +
-							'<img src="' + matchImgUrl + '" class="img-matched">' +
-							'<img src="' + fuseImgUrl + '" class="img-fused">' +
-						'</div>';
-				});
-		});
-	});
+          return '<div class="modal-footer centered">' +
+              '<img src="' + queryImgUrl + '" class="img-query">' +
+              '<img src="' + matchImgUrl + '" class="img-matched">' +
+              '<img src="' + fuseImgUrl + '" class="img-fused">' +
+            '</div>';
+        });
+    });
+  });
 });
-	</script>
+  </script>
 </body>
 </html>
