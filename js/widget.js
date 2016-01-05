@@ -100,32 +100,39 @@ function PagedTable(rootEle, d, param, clickFunc)
   var len = d.length;
   var cols = param['cols'];
   var i = 0;
-  for (i; i < Math.floor(len / cols); i ++) {
+  for (i; i < Math.ceil(len / cols); i ++) {
     $tr = $('<tr></tr>');
     for (var j = 0; j < cols; j ++) {
       // $tr.append('<td>' + d[i * cols + j][1] + '</td>');
 
-      var _d = d[i * cols + j];
-      var wordId = _d[0];
-      var word = _d[1];
+      if(i*cols+j >= len)
+      {
+        $tr.append('<td></td>');
+      }
+      else
+      {
+        var _d = d[i * cols + j];
+        var wordId = _d[0];
+        var word = _d[1];
 
-      var tdEle = $(document.createElement('td'))
-        .appendTo($tr);
-      var aEle = $(document.createElement('a'))
-        .html(word)
-        .click(clickFunc(wordId))
-        .appendTo(tdEle);
+        var tdEle = $(document.createElement('td'))
+          .appendTo($tr);
+        var aEle = $(document.createElement('a'))
+          .html(word)
+          .click(clickFunc(wordId))
+          .appendTo(tdEle);
+      }
     }
     $tbody.append($tr);
   }
-  $tr = $('<tr></tr>');
-  for (var j = 0; j < cols; j ++) {
-    if (d[i * cols + j] == undefined) {
-      $tr.append('<td></td>');
-    } else {
-      $tr.append('<td>' + d[i * cols + j][1] + '</td>');
-    }
-  }
+  // $tr = $('<tr></tr>');
+  // for (var j = 0; j < cols; j ++) {
+  //   if (d[i * cols + j] == undefined) {
+  //     $tr.append('<td></td>');
+  //   } else {
+  //     $tr.append('<td>' + d[i * cols + j][1] + '</td>');
+  //   }
+  // }
   $tbody.append($tr);
   $('#tableData').append($tbody);
   $('#tableData').page({limit: param['rows']});
