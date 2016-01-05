@@ -6,13 +6,13 @@
 }
 
 .cascade-img {
-    width: 240px;
+    width: 300px;
     margin: 20px;
     cursor: pointer;
 }
 
 .cascade-text {
-    width: 240px;
+    width: 300px;
     margin: 0px 20px;
     cursor: pointer;
     font-family: Georgia;
@@ -22,20 +22,8 @@
     text-align: center;
 }
 
-.img-query {
-    height: 100px;
-    margin: 0px;
-    padding: 0px;
-}
-
-.img-matched {
-    height: 100px;
-    margin: 0px;
-    padding: 0px;
-}
-
 .img-fused {
-    height: 200px;
+    height: 300px;
     margin: 0px;
     padding: 0px;
 }
@@ -88,6 +76,11 @@ a:hover{
 }
 
 /* result */
+.modal-dialog{
+    width: 800px;
+}
+
+
 .modal-footer .topContainer{
     width: 100%;
 	text-align:center;
@@ -96,7 +89,7 @@ a:hover{
 	margin:0 auto;
 }
 .modal-footer .topContainer .photo_swap img{
-	height:120px;
+	height:200px;
 }
 .modal-footer .query-photo{
 	display:inline-block;
@@ -112,7 +105,7 @@ a:hover{
 }
 
 .modal-footer .event-info{
-    width: 400px;
+    width: 500px;
     margin:20px auto;
     text-align: left;
     color: #262626;
@@ -125,7 +118,7 @@ a:hover{
 
 .result-info{
     color: #7F7F7F;
-    margin-top:10px;
+    margin-top:20px;
     margin-bottom: 5px;
 }
 

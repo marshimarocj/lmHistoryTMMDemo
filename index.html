@@ -138,9 +138,17 @@
   <script>
 var imgJsonUrl = 'json/queryImg.json';
 var eventJsonUrl = 'json/events.sample.json';
-var browseJsonUrls = ['json/browseByWar.json', 'json/browseByScene.json', 'json/browseByObject.json'];
+var browseJsonUrls = [
+  '/lmHistoryTMMSuppData/demo/browseByWar.json', 
+  '/lmHistoryTMMSuppData/demo/browseByScene.json', 
+  '/lmHistoryTMMSuppData/demo/browseByObject.json'
+];
 var timeJsonUrl = 'testdata/history.json';
-var timeRootJsonUrls = ['json/browseByWar/', 'json/browseByScene/', 'json/browseByObject/'];
+var timeRootJsonUrls = [
+  '/lmHistoryTMMSuppData/demo/browseByWar/', 
+  '/lmHistoryTMMSuppData/demo/browseByScene/', 
+  '/lmHistoryTMMSuppData/demo/browseByObject/'
+];
 
 var imgData = undefined;
 var eventData = undefined;
@@ -151,7 +159,7 @@ function genPagedTableProcessFunc(browseIdx)
   return function(wordId)
   {
     return function(){
-      var jsonUrl = timeRootJsonUrls[browseIdx] + wordId + '.json';
+      var jsonUrl = timeRootJsonUrls[browseIdx] + wordId + '.final.json';
       var timeGlider = new TimeGlider($('#timeglider'));
       timeGlider.GetData(jsonUrl);
     }

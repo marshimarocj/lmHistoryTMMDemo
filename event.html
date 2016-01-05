@@ -49,13 +49,14 @@
 var facetCascadeCols = 4;
 var detailCarouselWidth = 4;
 
-var eventJsonRootUrl = 'json/events/';
+// var eventJsonRootUrl = 'json/events/';
+var eventJsonRootUrl = '/lmHistoryTMMSuppData/demo/events/';
 
 $(document).ready(function() {
   // parse eid from parameter
   var url = window.location.href;
   var eid = parseUri(url).queryKey.eid;
-  var jsonUrl = eventJsonRootUrl + eid + '.json';
+  var jsonUrl = eventJsonRootUrl + eid + '.final.json';
 
   // retrieve event detail json
   // d: {
