@@ -27,13 +27,13 @@
                 //create previous link
                 this._on($('<li>', {
                     "data-direction": -1,
-                    html: '<a href="#" aria-label="Previous" data-direction="-1"><span aria-hidden="true">&laquo;</span></a>'
+                    html: '<a href="#" aria-label="Previous" data-direction="-1">&laquo;</a>'
                 }).prependTo(nav),
                         {click: "pageStepHandler"});
                 //create next link
                 this._on($('<li>', {
                     "data-direction": +1,
-                    html: '<a href="#" aria-label="Next" data-direction="+1"><span aria-hidden="true">&raquo;</span></a>'
+                    html: '<a href="#" aria-label="Next" data-direction="+1">&raquo;</a>'
                 }).appendTo(nav),
                         {click: "pageStepHandler"});
                 return nav;

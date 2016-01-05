@@ -1,31 +1,128 @@
 .cascade-item {
-    width: 300px;
-    margin: 2px;
+    width: 240px;
+    margin: 20px;
     float: left;
     cursor: pointer;
+}
+
+.cascade-img {
+    width: 300px;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.cascade-text {
+    width: 300px;
+    margin: 0px 20px;
+    cursor: pointer;
+    font-family: Georgia;
 }
 
 .centered {
     text-align: center;
 }
 
-.img-query {
-    width: 250px;
-    height: 250px;
-    margin: 0px;
-    padding: 0px;
-}
-
-.img-matched {
-    width: 250px;
-    height: 250px;
-    margin: 0px;
-    padding: 0px;
-}
-
 .img-fused {
-    width: 500px;
-    height: 250px;
+    height: 300px;
     margin: 0px;
     padding: 0px;
 }
+
+/* common */
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+a{
+    font-family: arial;
+    color: #262626;
+    cursor: pointer;
+}
+
+a:hover{
+    color: #4F8EBD;
+    text-decoration:none;
+    cursor: pointer;
+}
+
+
+/* nav bar */
+.navbar{
+    background-color: #262626;
+}
+
+.navbar-fixed-top {
+    height: 50px;
+}
+
+.navbar .imglogo{
+    margin-left:83px;
+}
+
+/* page info */
+.breadcrumb{
+    background-color: white;
+    border-bottom: 1px solid #7F7F7F;
+    border-radius: 0px;
+}
+
+.breadcrumb a{
+    color: #4F8EBD;
+}
+
+.breadcrumb li.active{
+    color: #7F7F7F;
+}
+
+/* result */
+.modal-dialog{
+    width: 800px;
+}
+
+
+.modal-footer .topContainer{
+    width: 100%;
+	text-align:center;
+}
+.modal-footer .topContainer .photo_swap{
+	margin:0 auto;
+}
+.modal-footer .topContainer .photo_swap img{
+	height:200px;
+}
+.modal-footer .query-photo{
+	display:inline-block;
+}
+.modal-footer .photo-info{
+    text-align:left;
+    margin-bottom: 5px;
+    color: #262626;
+}
+
+.modal-footer .history-photo{
+	display:inline-block;
+}
+
+.modal-footer .event-info{
+    width: 500px;
+    margin:20px auto;
+    text-align: left;
+    color: #262626;
+    font-family: Georgia;
+}
+
+.modal-footer .fusing-info{
+    color: #262626;
+}
+
+.result-info{
+    color: #7F7F7F;
+    margin-top:20px;
+    margin-bottom: 5px;
+}
+
+.modal-footer{
+	padding-bottom:30px;
+}
+
