@@ -45,18 +45,18 @@
   <script src="js/bootstrap-3.3.6/bootstrap.min.js"></script>
 
   <script>
-// var iconicCarouselWidth = 1;
+var iconicCarouselWidth = 3;
 var facetCascadeCols = 4;
 var detailCarouselWidth = 4;
+var postfix = '.final.scene.genre.json'
 
-// var eventJsonRootUrl = 'json/events/';
 var eventJsonRootUrl = '/lmHistoryTMMSuppData/demo/events/';
 
 $(document).ready(function() {
   // parse eid from parameter
   var url = window.location.href;
   var eid = parseUri(url).queryKey.eid;
-  var jsonUrl = eventJsonRootUrl + eid + '.final.json';
+  var jsonUrl = eventJsonRootUrl + eid + postfix;
 
   // retrieve event detail json
   // d: {
@@ -70,7 +70,7 @@ $(document).ready(function() {
     $('#text').children('h1').html(d['text']);
 
     //process iconic image display
-    var iconicCarousel = new Slide($('#iconic'), d['iconic'], {},
+    var iconicCarousel = new Slide($('#iconic'), d['iconic'], iconicCarouselWidth,
       function(item){
 
         var imgUrl = commonUrls.imgRootUrl + item;

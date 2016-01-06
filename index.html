@@ -159,7 +159,7 @@ function genPagedTableProcessFunc(browseIdx)
   return function(wordId)
   {
     return function(){
-      var jsonUrl = timeRootJsonUrls[browseIdx] + wordId + '.final.json';
+      var jsonUrl = timeRootJsonUrls[browseIdx] + wordId + '.final.refine.json';
       var timeGlider = new TimeGlider($('#timeglider'));
       timeGlider.GetData(jsonUrl);
     }

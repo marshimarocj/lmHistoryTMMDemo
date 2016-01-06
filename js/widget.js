@@ -47,7 +47,7 @@ function Carousel(rootEle, d, param, processFunc)
 });
 }
 
-function Slide(rootEle, d, param, processFunc)
+function Slide(rootEle, d, itemDisplayNum, processFunc)
 {
   rootId = rootEle.attr('id');
   rootEle.append('<ul id="slide"></ul>');
@@ -58,7 +58,7 @@ function Slide(rootEle, d, param, processFunc)
     rootEle.children("ul").append(processFunc(field));
   });
   var autoplaySlider = $('#slide').lightSlider({
-	item: 4,
+	item: itemDisplayNum,
 	easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
 	auto:true,
 	loop:true,
