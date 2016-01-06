@@ -1,3 +1,8 @@
+.container #iconic{
+    width: 800px;
+    margin: 0 auto;
+}
+
 .cascade-item {
     width: 250px;
     margin: 2px;

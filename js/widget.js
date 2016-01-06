@@ -6,6 +6,8 @@ var commonUrls =
 	imgFuseRootUrl: 'http://222.29.193.172:8006/lmHistoryMMData/img/matchRansac/salientRegion/viz/',
 };
 
+var iconColor = ['black', 'blue', 'gray', 'green', 'orange', 'purple', 'red', 'white', 'yellow'];
+
 // param is the number images shown simultaneously in carousel
 function Carousel(rootEle, d, param, processFunc)
 {
@@ -92,7 +94,7 @@ function Slide(rootEle, d, itemDisplayNum, processFunc)
 function ExtendedCarousel(rootEle, d, cols, param)
 {
   $.each(d, function(i, field) {
-    var lightSliderId = 'lightSlider' + i;
+    var lightSliderId = 'lightSlider' + param+i;
     rootEle.append('<div class="cascade-item"><h3 align="center"></h3><ul id=' + lightSliderId + '></ul></div>');
     $.each(field, function(j, img) {
 	  if ( !j && img.indexOf('jpg') == -1 ) {
@@ -108,7 +110,7 @@ function ExtendedCarousel(rootEle, d, cols, param)
 
 	rootEle.imagesLoaded(function(){
 		$.each(d, function(i, field) {
-			$('#lightSlider' + i).lightSlider({
+			$('#lightSlider' + param+i).lightSlider({
 		        gallery: true,
 		        item: 1,
 		        loop:true,
@@ -122,6 +124,8 @@ function ExtendedCarousel(rootEle, d, cols, param)
 		      return containerWidth / cols;
 		    }
 		});
+        
+        $('.facet-info').resize();
 	});
 }
 
@@ -264,23 +268,15 @@ function TimeGlider(rootEle, param)
     event.description = obj[2];
 
     var len = obj.length;
-    if (len > 6){
-        event.title = obj[6];
-    }else{
-        if(obj[2].length > 10){
-            event.title = obj[2].substr(0, 10)+"...";  //取前10个字符
-        }else{
-            event.title = obj[2].text;
-        }
-    }
-
-
+    
+    event.title = obj[6];
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];
     event.high_threshold = 60;
-    event.importance = 50;
-    event.date_display = "ye";
-    event.icon = "circle_black.png";
+    event.importance = obj[7];
+    event.date_display = "da";
+    event.icon = "circle_"+iconColor[obj[8]]+".png";
+    
     event.image = "http://222.29.193.172:8006/lmHistoryTMMSuppData/demo/imgs/"+obj[1];
 
     return event;

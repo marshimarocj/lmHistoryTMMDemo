@@ -30,6 +30,9 @@
       <div id="iconic"></div>
     </div>
     <!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
+    <div class="facet-info">Content Gener</div>
+    <div id="gener" ></div>
+    
     <div class="facet-info">Content Facets</div>
     <div id="facet" ></div>
   </div>
@@ -78,9 +81,10 @@ $(document).ready(function() {
       });
 
     //process facet display
-    var facetCascade = new ExtendedCarousel($('#facet'), d['facet'], facetCascadeCols, function(item) {
-      //create extended carousel element, set its itemClickFunc and return this extended carousel element
-    });
+    var generCascade = new ExtendedCarousel($('#gener'), d['gener'], facetCascadeCols, 'gener');
+    
+    
+    var facetCascade = new ExtendedCarousel($('#facet'), d['facet'], facetCascadeCols, 'facet');
   });
 });
   </script>
