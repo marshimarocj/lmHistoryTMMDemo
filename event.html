@@ -30,10 +30,9 @@
       <div id="iconic"></div>
     </div>
     <!-- this section shows images by facet in cascade layout. Cascade layout with popup panel. Please refer to the design image for detail. -->
-    <div class="facet-info">Content Gener</div>
-    <div id="gener" ></div>
-    
-    <div class="facet-info">Content Facets</div>
+    <!--<div class="facet-info" id="genre-info">Genre Facets</div>
+    <div id="genre" ></div>-->
+    <div class="facet-info">Facets</div>
     <div id="facet" ></div>
   </div>
   <!-- common -->
@@ -51,7 +50,8 @@
 var iconicCarouselWidth = 3;
 var facetCascadeCols = 4;
 var detailCarouselWidth = 4;
-var postfix = '.final.scene.genre.json'
+// var postfix = '.final.scene.genre.json'
+var postfix = '.final.scene.genre.manual.json'
 
 var eventJsonRootUrl = '/lmHistoryTMMSuppData/demo/events/';
 
@@ -81,8 +81,14 @@ $(document).ready(function() {
       });
 
     //process facet display
-    var generCascade = new ExtendedCarousel($('#gener'), d['gener'], facetCascadeCols, 'gener');
-    
+    // if(d['genre'].length == 0)
+    // {
+    //   $('#genre-info').hide();
+    // }
+    // else
+    // {
+    //   var generCascade = new ExtendedCarousel($('#genre'), d['genre'], facetCascadeCols, 'genre');
+    // }
     
     var facetCascade = new ExtendedCarousel($('#facet'), d['facet'], facetCascadeCols, 'facet');
   });

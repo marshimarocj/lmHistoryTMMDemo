@@ -181,14 +181,6 @@ function PagedTable(rootEle, d, param, clickFunc)
 
     $tbody.append($tr);
     }
-  // $tr = $('<tr></tr>');
-  // for (var j = 0; j < cols; j ++) {
-  //   if (d[i * cols + j] == undefined) {
-  //     $tr.append('<td></td>');
-  //   } else {
-  //     $tr.append('<td>' + d[i * cols + j][1] + '</td>');
-  //   }
-  // }
     $tbody.append($tr);
   }
   $('#tableData').append($tbody);
@@ -269,13 +261,16 @@ function TimeGlider(rootEle, param)
 
     var len = obj.length;
     
+    //TODO: size and color
     event.title = obj[6];
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];
     event.high_threshold = 60;
-    event.importance = obj[7];
+    // event.importance = obj[7];
+    event.importance = 50;
     event.date_display = "da";
-    event.icon = "circle_"+iconColor[obj[8]]+".png";
+    // event.icon = "circle_"+iconColor[obj[8]]+".png";
+    event.icon = "circle_"+iconColor[0]+".png";
     
     event.image = "http://222.29.193.172:8006/lmHistoryTMMSuppData/demo/imgs/"+obj[1];
 
