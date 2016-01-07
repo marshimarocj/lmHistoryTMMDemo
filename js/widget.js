@@ -266,11 +266,11 @@ function TimeGlider(rootEle, param)
     event.link = 'event.html?eid=' + event.id;
     event.startdate = obj[5][0];
     event.high_threshold = 60;
-    // event.importance = obj[7];
-    event.importance = 50;
+    event.importance = obj[7]*10 + 40;
+    // event.importance = 50;
     event.date_display = "da";
-    // event.icon = "circle_"+iconColor[obj[8]]+".png";
-    event.icon = "circle_"+iconColor[0]+".png";
+    event.icon = "circle_"+iconColor[obj[8]]+".png";
+    // event.icon = "circle_"+iconColor[0]+".png";
     
     event.image = "http://222.29.193.172:8006/lmHistoryTMMSuppData/demo/imgs/"+obj[1];
 
